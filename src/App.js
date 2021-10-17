@@ -1,23 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { Redirect, Route, Switch } from "react-router";
+import { AuthenticateUser, BlogUpload } from "./components";
 
-function App() {
+const App = () => {
+  const [user, setUser] = useState('Sins');
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Switch>
+        {
+          !user ?
+            <AuthenticateUser setUser={setUser} /> :
+            null
+        }
+        <Route exact path='/' component={() => 'HomePage'} />
+        <Route exact path='/blogUpload' render={() => <BlogUpload user={user} />} />
+        <Redirect to='/' />
+      </Switch>
     </div>
   );
 }
