@@ -5,19 +5,22 @@ import { useHistory } from "react-router";
 const AuthenticateUserAPI = process.env.REACT_APP_Authenticate_User_API || '';
 
 const AuthenticateUser = ({ setUser }) => {
-  const [name, setName] = useState('');
-  const [key, setKey] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [loginFail, setLoginFail] = useState(false);
   const history = useHistory();
 
   const login = () =>
     axios.post(AuthenticateUserAPI,
-      { name: name, key: key }
+      { email: email, password: password }
     ).then(res => {
-      if(res.status === 'success') {
-        setUser(name);
+      if(res.status === 200) {
+        setUser(res.data);
         history.push('/');
-      } else {
+      }
+    }).catch(({ response }) => {
+      // console.log(response.status);
+      if(response.status === 400) {
         setLoginFail(true);
       }
     });
@@ -32,20 +35,20 @@ const AuthenticateUser = ({ setUser }) => {
           null
       }
       <div>
-        <label htmlFor='username'>Username</label>
-        <input type='text' name='username' id='username'
-          onChange={e => setName(e.target.value)}
+        <label htmlFor='email'>Email</label>
+        <input type='text' name='email' id='email'
+          onChange={e => setEmail(e.target.value)}
           required
         />
       </div>
       <div>
         <label htmlFor='password'>Password</label>
         <input type='password' name='password' id='password'
-          onChange={e => setKey(e.target.value)}
+          onChange={e => setPassword(e.target.value)}
           required
         />
       </div>
-      <button type='submit' onClick={login} disabled={name.length*key.length === 0}>
+      <button type='submit' onClick={login} disabled={email.length*password.length === 0}>
         Login
       </button>
     </div>
