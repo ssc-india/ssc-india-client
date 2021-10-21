@@ -5,7 +5,7 @@ import { useHistory } from 'react-router';
 const serverURL = process.env.REACT_APP_BE_URL || '';
 const BlogUploadAPI = process.env.REACT_APP_Create_Post || '';
 
-const BlogUpload = props => {
+const CreatePost = props => {
   const [title, setTitle] = useState('');
   const [contents, setContents] = useState([{ type: 'p' }]);
   const [addElement, setAddElement] = useState('');
@@ -111,4 +111,4 @@ const BlogUpload = props => {
   );
 }
 
-export default BlogUpload;
+export default CreatePost;

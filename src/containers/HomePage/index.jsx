@@ -6,7 +6,7 @@ const HomePage = () => {
   
   return (
     <div>
-      <button onClick={() => history.push('/blogUpload')}>BlogUpload</button>
+      <button onClick={() => history.push('/createPost')}>BlogUpload</button>
     </div>
   );
 }

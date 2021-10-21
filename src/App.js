@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Redirect, Route, Switch } from "react-router";
-import { AuthenticateUser, BlogUpload } from "./components";
-import HomePage from "./container/HomePage";
+import { AuthenticateUser, CreatePost, HomePage } from "./containers";
 // import DevTest from "./dev_test";
 
 const App = () => {
@@ -17,7 +16,7 @@ const App = () => {
             null
         }
         <Route exact path='/' component={HomePage} />
-        <Route exact path='/blogUpload' render={() => <BlogUpload user={user.name} />} />
+        <Route exact path='/createPost' render={() => <CreatePost user={user.name} />} />
         <Redirect to='/' />
       </Switch>
     </div>
