@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Redirect, Route, Switch } from "react-router";
-import { AuthenticateUser, CreatePost, HomePage } from "./containers";
+import { AuthenticateUser, CreatePost, HomePage, ShowPost } from "./containers";
 // import DevTest from "./dev_test";
 
 const App = () => {
@@ -10,6 +10,9 @@ const App = () => {
     <div className="App">
       {/* <DevTest /> */}
       <Switch>
+        <Route exact path='/' render={() => <HomePage user={'name' in user ? user.name : null} />} />
+        <Route exact path='/viewPost/:id' render={props => <ShowPost id={props.match.params.id} />} />
+        <Route exact path='/authUser' render={() => <AuthenticateUser setUser={setUser} />} />
         {
           !user.name ?
             <AuthenticateUser setUser={setUser} /> :
