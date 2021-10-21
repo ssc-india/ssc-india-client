@@ -51,7 +51,8 @@ const CreatePost = props => {
           branch: props.branch,
           tag: generic ? 'generic' : 'blog',
         }
-      ).then(() => history.push(''));
+      ).then(() => history.push(''))
+      .catch(({response}) => response.status === 400 ? props.setUser({}) : null);
     }
   }
 
