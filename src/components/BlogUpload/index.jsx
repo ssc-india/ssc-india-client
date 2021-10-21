@@ -2,7 +2,8 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 
-const BlogUploadAPI = process.env.REACT_APP_Blog_Upload || '';
+const serverURL = process.env.REACT_APP_BE_URL || '';
+const BlogUploadAPI = process.env.REACT_APP_Create_Post || '';
 
 const BlogUpload = props => {
   const [title, setTitle] = useState('');
@@ -29,7 +30,7 @@ const BlogUpload = props => {
 
   const removeElement = index => setContents([...contents.slice(0, index), ...contents.slice(index+1)]);
 
-  var canSubmit = title.length > 0;
+  var canSubmit = title.length > 0 && contents.length > 0;
   if(canSubmit) {
     for(const el of contents) {
       if(!('content' in el && el.content.length > 0) && !('src' in el && el.src.length > 0)) {
@@ -40,7 +41,7 @@ const BlogUpload = props => {
 
   const handleSubmit = () => {
     if(canSubmit) {
-      axios.post(BlogUploadAPI,
+      axios.post(serverURL + BlogUploadAPI,
         {
           ...contents,
           time: Date(),

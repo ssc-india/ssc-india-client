@@ -2,7 +2,8 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useHistory } from "react-router";
 
-const AuthenticateUserAPI = process.env.REACT_APP_Authenticate_User_API || '';
+const serverURL = process.env.REACT_APP_BE_URL || '';
+const AuthenticateUserAPI = process.env.REACT_APP_Auth_User || '';
 
 const AuthenticateUser = ({ setUser }) => {
   const [email, setEmail] = useState('');
@@ -11,7 +12,7 @@ const AuthenticateUser = ({ setUser }) => {
   const history = useHistory();
 
   const login = () =>
-    axios.post(AuthenticateUserAPI,
+    axios.post(serverURL + AuthenticateUserAPI,
       { email: email, password: password }
     ).then(res => {
       if(res.status === 200) {
