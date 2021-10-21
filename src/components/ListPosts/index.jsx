@@ -12,7 +12,7 @@ const ListPosts = () => {
 
   useEffect(() => {
     axios.get(serverURL + showPostAPI, { ...query })
-      .then(res => setPosts(res.data))
+      .then(res => setPosts(res.data.posts))
   }, [query]);
 
   return (

@@ -12,6 +12,7 @@ const App = () => {
       <Switch>
         <Route exact path='/' render={() => <HomePage user={'name' in user ? user.name : null} />} />
         <Route exact path='/viewPost/:id' render={props => <ShowPost id={props.match.params.id} />} />
+        <Route exact path='/authUser' render={() => <AuthenticateUser setUser={setUser} />} />
         {
           !user.name ?
             <AuthenticateUser setUser={setUser} /> :
