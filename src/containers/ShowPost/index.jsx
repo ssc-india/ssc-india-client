@@ -1,5 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import LoadAuthorInfo from "./loadAuthorInfo";
+import LoadPostContents from "./loadContents";
 
 const serverURL = process.env.REACT_APP_BE_URL;
 const showPostAPI = process.env.REACT_APP_View_Post;
@@ -12,20 +14,18 @@ const ShowPost = props => {
       .then(res => setPost(res.data))
   }, [props.id]);
 
-  const loadAuthorInfo = post.tag === 'blog' ?
-    <div>
-      <h4>Author: {post.author}</h4>
-      <p>Institute: {post.institute}</p>
-      <p>Branch: {post.branch}</p>
-    </div> :
-    null;
-
   return (
     <div>
       <h2>{post.title}</h2>
       <h4>{post.timestamp}</h4>
-
-      {loadAuthorInfo}
+      <div>
+        <LoadPostContents
+          contents={post.content}
+        />
+      </div>
+      <LoadAuthorInfo
+        post={post}
+      />
     </div>
   );
 }
