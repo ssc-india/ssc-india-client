@@ -16,7 +16,7 @@ const App = () => {
             null
         }
         <Route exact path='/' component={HomePage} />
-        <Route exact path='/createPost' render={() => <CreatePost user={user.name} />} />
+        <Route exact path='/createPost' render={() => <CreatePost user={user.name} setUser={setUser} />} />
         <Redirect to='/' />
       </Switch>
     </div>
