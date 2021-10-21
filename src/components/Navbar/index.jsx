@@ -1,11 +1,12 @@
 import React from "react";
 import { useHistory } from "react-router";
+import './index.css';
 
 const Navbar = props => {
   const history = useHistory();
 
   return (
-    <div>
+    <div className='Navbar-container'>
       {
         props.user ?
           <p>Signed in as {props.user}</p> :

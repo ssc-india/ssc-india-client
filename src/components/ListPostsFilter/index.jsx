@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import './index.css';
 
 const ListPostsFilter = props => {
   const [filter, setFilter] = useState({ tag: '', institute: '', branch: '' });
@@ -9,7 +10,7 @@ const ListPostsFilter = props => {
   };
 
   return (
-    <div>
+    <div className='ListPostsFilter'>
       <label htmlFor='tag'>Posts</label>
       <select name='tag' value={filter.tag} onChange={e => filterChange({ tag: e.target.value })}>
         <option value='' selected>All</option>
