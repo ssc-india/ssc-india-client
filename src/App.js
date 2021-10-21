@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState } from "react";
 import { Redirect, Route, Switch, useHistory } from "react-router";
 import { Navbar } from "./components";
@@ -8,10 +9,17 @@ const App = () => {
   const [user, setUser] = useState({});
   const history = useHistory();
 
+  const serverURL = process.env.REACT_APP_BE_URL || '';
+  const DeauthUserAPI = process.env.REACT_APP_Deauth_User || '';
+  
+  const signout = () =>
+    axios.post(serverURL + DeauthUserAPI)
+      .then(() => setUser({}));
+
   return (
     <div className="App">
       <Navbar user={user.name}
-        setUser={() => 'name' in user ? setUser({}) : history.push('/authUser')}
+        setUser={() => 'name' in user ? signout() : history.push('/authUser')}
       />
       {/* <DevTest /> */}
       <Switch>
