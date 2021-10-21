@@ -7,7 +7,7 @@ const Navbar = props => {
   return (
     <div>
       {
-        props.user === null ?
+        props.user !== null ?
           <button onClick={() => history.push('/createPost')}>Create Post</button> :
           null
       }
