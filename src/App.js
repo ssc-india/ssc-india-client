@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Redirect, Route, Switch, useHistory } from "react-router";
-import { Navbar, SidePanel } from "./components";
+import { Footer, Navbar, SidePanel } from "./components";
 import { AuthenticateUser, CreatePost, HomePage, ShowPost } from "./containers";
 import './App.scss';
 // import DevTest from "./dev_test";
@@ -47,6 +47,7 @@ const App = () => {
           </Switch>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }
