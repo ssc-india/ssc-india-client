@@ -11,8 +11,11 @@ const ShowPost = props => {
 
   useEffect(() => {
     axios.get(serverURL + showPostAPI, { params: { id: props.id } })
-      .then(res => setPost(res.data))
-  }, [props.id]);
+      .then(res => {
+        setPost(res.data.posts[0]);
+        props.setQuery({ institute: res.data.posts[0].institute });
+      })
+  }, [props]);
 
   return (
     <div>
