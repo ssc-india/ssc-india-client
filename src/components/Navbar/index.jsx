@@ -6,6 +6,7 @@ const Navbar = props => {
 
   return (
     <div>
+      <button onClick={() => history.goBack()}>Back</button>
       {
         props.user ?
           <p>Signed in as {props.user}</p> :

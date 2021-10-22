@@ -7,15 +7,16 @@ const serverURL = process.env.REACT_APP_BE_URL;
 const showPostAPI = process.env.REACT_APP_View_Post;
 
 const ShowPost = props => {
-  const [post, setPost] = useState();
+  const [post, setPost] = useState({});
 
   useEffect(() => {
     axios.get(serverURL + showPostAPI, { params: { id: props.id } })
       .then(res => {
         setPost(res.data.posts[0]);
         props.setQuery({ institute: res.data.posts[0].institute });
-      })
-  }, [props]);
+      });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.id]);
 
   return (
     <div>

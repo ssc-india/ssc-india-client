@@ -5,7 +5,7 @@ const ListPostsFilter = props => {
 
   const filterChange = obj => {
     setFilter({ ...filter, ...obj });
-    props.setQuery(filter);
+    props.setQuery({ ...filter, ...obj });
   };
 
   return (
