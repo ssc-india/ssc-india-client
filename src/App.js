@@ -1,12 +1,13 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Redirect, Route, Switch, useHistory } from "react-router";
-import { Navbar } from "./components";
+import { Navbar, SidePanel } from "./components";
 import { AuthenticateUser, CreatePost, HomePage, ShowPost } from "./containers";
 // import DevTest from "./dev_test";
 
 const App = () => {
   const [user, setUser] = useState({});
+  const [query, setQuery] = useState({});
   const history = useHistory();
 
   const serverURL = process.env.REACT_APP_BE_URL || '';
@@ -21,10 +22,17 @@ const App = () => {
       <Navbar user={user.name}
         setUser={() => 'name' in user ? signout() : history.push('/authUser')}
       />
+      <SidePanel query={query} setQuery={setQuery} />
       {/* <DevTest /> */}
       <Switch>
-        <Route exact path='/' render={() => <HomePage user={'name' in user ? user.name : null} />} />
-        <Route exact path='/viewPost/:id' render={props => <ShowPost id={props.match.params.id} />} />
+        <Route exact path='/'
+          render={() =>
+            <HomePage user={'name' in user ? user.name : null} query={query} />
+          }
+        />
+        <Route exact path='/viewPost/:id'
+          render={props => <ShowPost id={props.match.params.id} setQuery={setQuery} />}
+        />
         <Route exact path='/authUser' render={() => <AuthenticateUser setUser={setUser} />} />
         {
           !user.name ?

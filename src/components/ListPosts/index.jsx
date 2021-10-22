@@ -6,9 +6,9 @@ import LoadPostsList from "./loadPostsList";
 const serverURL = process.env.REACT_APP_BE_URL;
 const showPostAPI = process.env.REACT_APP_View_Post;
 
-const ListPosts = () => {
+const ListPosts = ({passedQuery}) => {
   const [posts, setPosts] = useState([]);
-  const [query, setQuery] = useState({});
+  const [query, setQuery] = useState(passedQuery);
 
   useEffect(() => {
     axios.get(serverURL + showPostAPI, { ...query })
