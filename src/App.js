@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Redirect, Route, Switch, useHistory } from "react-router";
-import { Navbar, SidePanel } from "./components";
+import { Footer, Navbar, SidePanel } from "./components";
 import { AuthenticateUser, CreatePost, HomePage, ShowPost } from "./containers";
 // import DevTest from "./dev_test";
 
@@ -42,6 +42,7 @@ const App = () => {
         <Route exact path='/createPost' render={() => <CreatePost user={user.name} setUser={setUser} />} />
         <Redirect to='/' />
       </Switch>
+      <Footer />
     </div>
   );
 }
