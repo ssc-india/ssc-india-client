@@ -1,9 +1,11 @@
+$navbarHeight: 30px;
+
 .App-contents {
   display: flex;
   flex-flow: row wrap;
-}
 
-.main-contents {
-  flex: 4;
+  .main-contents {
+    flex: 4;
+    height: calc(100vh - $navbarHeight);
+  }
 }
-

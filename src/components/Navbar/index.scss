@@ -1,4 +1,10 @@
+@import '../../App.scss';
+
 .Navbar-container {
+  height: $navbarHeight;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   padding: 5px;
   border: 1px solid black;
 }
