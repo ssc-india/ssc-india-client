@@ -2,12 +2,12 @@ import React from "react";
 import { ListPosts } from "../../components";
 // import { useHistory } from "react-router";
 
-const HomePage = ({user}) => {
+const HomePage = ({query}) => {
   // const history = useHistory();
   
   return (
     <div>
-      <ListPosts />
+      <ListPosts passedQuery={query} />
     </div>
   );
 }
