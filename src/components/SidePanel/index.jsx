@@ -18,6 +18,7 @@ const SidePanel = props => {
           <div className='sideLinks'>
             <Link to='/'>HomePage</Link>
             <button onClick={() => similarPosts({ institute: props.query.institute || '' })}>Posts from this institute</button>
+            <button onClick={() => similarPosts({ branch: props.query.branch || '' })}>Posts from this branch</button>
           </div> :
           null
       }
