@@ -27,10 +27,12 @@ const App = () => {
       <Switch>
         <Route exact path='/'
           render={() =>
-            <HomePage user={'name' in user ? user.name : null} query={query} setQuery={setQuery} />
+            <HomePage user={'name' in user ? user.name : null} query={query} />
           }
         />
-        <Route exact path='/viewPost/:id' render={props => <ShowPost id={props.match.params.id} />} />
+        <Route exact path='/viewPost/:id'
+          render={props => <ShowPost id={props.match.params.id} setQuery={setQuery} />}
+        />
         <Route exact path='/authUser' render={() => <AuthenticateUser setUser={setUser} />} />
         {
           !user.name ?
