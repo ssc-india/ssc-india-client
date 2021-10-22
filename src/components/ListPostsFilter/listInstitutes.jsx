@@ -7,9 +7,19 @@ const ListInstitutesAPI = process.env.REACT_APP_List_Institutes || '';
 const ListInstitutes = props => {
   const [institutes, setInstitutes] = useState([]);
 
+  const sendUniqueBranches = instiList => {
+    let uniqueList = new Set();
+    instiList.forEach(insti => insti.branches.forEach(branch => uniqueList.add(branch.name)));
+    props.setBranches(uniqueList);
+  }
+
   useEffect(() =>
     axios.get(serverURL + ListInstitutesAPI)
-      .then(res => setInstitutes(res.data))
+      .then(res => {
+        setInstitutes(res.data);
+        sendUniqueBranches(res.data);
+      })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   , []);
 
   const renderInstitutesList = institutes.map((institute, index) =>

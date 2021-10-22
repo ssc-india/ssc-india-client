@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import './index.scss';
+import ListBranches from "./listBranches";
 import ListInstitutes from "./listInstitutes";
 
 const ListPostsFilter = props => {
   const [filter, setFilter] = useState({ tag: '', institute: '', branch: '' });
+  const [branches, setBranches] = useState(new Set());
 
   const filterChange = obj => {
     setFilter({ ...filter, ...obj });
@@ -23,16 +25,11 @@ const ListPostsFilter = props => {
         </select>
       </div>
 
-      <ListInstitutes filter={filter} filterChange={filterChange} />
+      <ListInstitutes filter={filter} filterChange={filterChange} setBranches={setBranches} />
 
-      <div>
-        <label htmlFor='branch'>Branch</label>
-        <select name='branch' value={filter.branch}
-          onChange={e => filterChange({ branch: e.target.value })} disabled
-        >
-          <option value='' selected>All</option>
-        </select>
-      </div>
+      <ListBranches filter={filter} filterChange={filterChange} branches={branches} />
+
+      {/* <button onClick={() => {setFilter({}); props.setQuery({})}}>Clear filter</button> */}
     </div>
   );
 }
