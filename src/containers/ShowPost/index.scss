@@ -1,0 +1,28 @@
+.ShowPost {
+  padding: 5px;
+  margin: 5px;
+  border: 1px solid black;
+
+  .postHead {
+    padding: 5px;
+    border: 1px solid black;
+  }
+
+  .postContents {
+    padding: 5px;
+    border: 1px solid black;
+
+    .postImg {
+      text-align: center;
+      
+      img {
+        max-width: 100%;
+      }
+    }
+  }
+}
+
+.postAuthor {
+  padding: 5px;
+  border: 1px solid black;
+}

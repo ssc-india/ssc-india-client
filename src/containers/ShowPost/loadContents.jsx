@@ -7,13 +7,15 @@ const LoadPostContents = props =>
         return (
           <div key={index}>
             <p>{el.content}</p>
+            <hr />
           </div>
         );
       } else if(el.type === 'img') {
         return (
-          <div key={index}>
+          <div key={index} className='postImg'>
             <img src={el.src} alt={el.description} />
-            <p>{el.description}</p>
+            <p><i>{el.description}</i></p>
+            <hr />
           </div>
         );
       }
