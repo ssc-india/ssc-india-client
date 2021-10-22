@@ -11,8 +11,8 @@ const ListPosts = ({passedQuery}) => {
   const [query, setQuery] = useState(passedQuery);
 
   useEffect(() => {
-    axios.get(serverURL + showPostAPI, { ...query })
-      .then(res => setPosts(res.data.posts))
+    axios.get(serverURL + showPostAPI, { params: { ...query } })
+      .then(res => {console.log(res); setPosts(res.data.posts)})
   }, [query]);
 
   return (
