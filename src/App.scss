@@ -1,0 +1,13 @@
+$navbarHeight: 30px;
+$footerHeight: 30px;
+
+.App-contents {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: flex-start;
+
+  .main-contents {
+    flex: 4;
+    // height: calc(100vh - $navbarHeight - $footerHeight);
+  }
+}

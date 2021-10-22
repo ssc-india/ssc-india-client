@@ -1,11 +1,12 @@
 import React from "react";
 import { useHistory } from "react-router";
+import './index.scss';
 
 const Navbar = props => {
   const history = useHistory();
 
   return (
-    <div>
+    <div className='Navbar-container'>
       <button onClick={() => history.goBack()}>Back</button>
       {
         props.user ?
