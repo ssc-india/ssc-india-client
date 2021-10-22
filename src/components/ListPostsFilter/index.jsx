@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import './index.scss';
+import ListInstitutes from "./listInstitutes";
 
 const ListPostsFilter = props => {
   const [filter, setFilter] = useState({ tag: '', institute: '', branch: '' });
@@ -11,22 +12,27 @@ const ListPostsFilter = props => {
 
   return (
     <div className='ListPostsFilter'>
-      <label htmlFor='tag'>Posts</label>
-      <select name='tag' value={filter.tag} onChange={e => filterChange({ tag: e.target.value })}>
-        <option value='' selected>All</option>
-        <option value='generic'>Info</option>
-        <option value='blog'>Blog</option>
-      </select>
+      <div>
+        <label htmlFor='tag'>Posts</label>
+        <select name='tag' value={filter.tag}
+          onChange={e => filterChange({ tag: e.target.value })}
+        >
+          <option value='' selected>All</option>
+          <option value='generic'>Info</option>
+          <option value='blog'>Blog</option>
+        </select>
+      </div>
 
-      <label htmlFor='institute'>Institute</label>
-      <select name='institute' value={filter.institute} onChange={e => filterChange({ institute: e.target.value })}>
-        <option value='' selected>All</option>
-      </select>
+      <ListInstitutes filter={filter} filterChange={filterChange} />
 
-      <label htmlFor='branch'>Branch</label>
-      <select name='branch' value={filter.branch} onChange={e => filterChange({ branch: e.target.value })}>
-        <option value='' selected>All</option>
-      </select>
+      <div>
+        <label htmlFor='branch'>Branch</label>
+        <select name='branch' value={filter.branch}
+          onChange={e => filterChange({ branch: e.target.value })} disabled
+        >
+          <option value='' selected>All</option>
+        </select>
+      </div>
     </div>
   );
 }
