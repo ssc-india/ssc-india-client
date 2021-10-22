@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, useRouteMatch } from 'react-router-dom';
+import './index.scss';
 
 const SidePanel = props => {
   const routeMatch = useRouteMatch();

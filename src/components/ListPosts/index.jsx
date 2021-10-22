@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import ListPostsFilter from "../ListPostsFilter";
 import LoadPostsList from "./loadPostsList";
-import './index.css';
+import './index.scss';
 
 const serverURL = process.env.REACT_APP_BE_URL;
 const showPostAPI = process.env.REACT_APP_View_Post;

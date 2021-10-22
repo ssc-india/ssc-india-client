@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import './index.css';
+import './index.scss';
 
 const ListPostsFilter = props => {
   const [filter, setFilter] = useState({ tag: '', institute: '', branch: '' });

@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Redirect, Route, Switch, useHistory } from "react-router";
 import { Navbar, SidePanel } from "./components";
 import { AuthenticateUser, CreatePost, HomePage, ShowPost } from "./containers";
+import './App.scss';
 // import DevTest from "./dev_test";
 
 const App = () => {
@@ -22,26 +23,30 @@ const App = () => {
       <Navbar user={user.name}
         setUser={() => 'name' in user ? signout() : history.push('/authUser')}
       />
-      <SidePanel query={query} setQuery={setQuery} />
-      {/* <DevTest /> */}
-      <Switch>
-        <Route exact path='/'
-          render={() =>
-            <HomePage user={'name' in user ? user.name : null} query={query} />
-          }
-        />
-        <Route exact path='/viewPost/:id'
-          render={props => <ShowPost id={props.match.params.id} setQuery={setQuery} />}
-        />
-        <Route exact path='/authUser' render={() => <AuthenticateUser setUser={setUser} />} />
-        {
-          !user.name ?
-            <AuthenticateUser setUser={setUser} /> :
-            null
-        }
-        <Route exact path='/createPost' render={() => <CreatePost user={user.name} setUser={setUser} />} />
-        <Redirect to='/' />
-      </Switch>
+      <div className='App-contents'>
+        <SidePanel query={query} setQuery={setQuery} />
+        {/* <DevTest /> */}
+        <div className='main-contents'>
+          <Switch>
+            <Route exact path='/'
+              render={() =>
+                <HomePage user={'name' in user ? user.name : null} query={query} />
+              }
+            />
+            <Route exact path='/viewPost/:id'
+              render={props => <ShowPost id={props.match.params.id} setQuery={setQuery} />}
+            />
+            <Route exact path='/authUser' render={() => <AuthenticateUser setUser={setUser} />} />
+            {
+              !user.name ?
+                <AuthenticateUser setUser={setUser} /> :
+                null
+            }
+            <Route exact path='/createPost' render={() => <CreatePost user={user.name} setUser={setUser} />} />
+            <Redirect to='/' />
+          </Switch>
+        </div>
+      </div>
     </div>
   );
 }
