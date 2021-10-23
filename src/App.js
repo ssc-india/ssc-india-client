@@ -42,7 +42,7 @@ const App = () => {
                 <AuthenticateUser setUser={setUser} /> :
                 null
             }
-            <Route exact path='/createPost' render={() => <CreatePost user={user.name} setUser={setUser} />} />
+            <Route exact path='/createPost' render={() => <CreatePost user={user} setUser={setUser} />} />
             <Redirect to='/' />
           </Switch>
         </div>
