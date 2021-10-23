@@ -37,7 +37,11 @@ const CreatePost = props => {
     setContents([...contents, newEl]);
   }
 
-  const removeElement = index => setContents([...contents.slice(0, index), ...contents.slice(index+1)]);
+  const removeElement = index =>
+    setContents([
+      ...contents.slice(0, index),
+      ...contents.slice(index+1)
+    ]);
 
   var canSubmit = title.length > 0 && contents.length > 0;
   if(canSubmit) {
@@ -57,19 +61,21 @@ const CreatePost = props => {
             content: contents
           },
           { withCredentials: true }
-        ).then(() => history.push('/viewPost/' + props.id));
+        ).then(() => history.push('/viewPost/' + props.id))
+        .catch(err => console.log(err));
+      } else {
+        axios.post(serverURL + PostUploadAPI,
+          {
+            title: title,
+            content: contents,
+            institute: props.user.institute,
+            branch: props.user.branch,
+            tag: generic ? 'generic' : 'blog',
+          },
+          { withCredentials: true }
+        ).then(res => history.push('/viewPost/' + res.data.postId))
+        .catch(({response}) => response.status === 400 ? props.setUser({}) : null);
       }
-      axios.post(serverURL + PostUploadAPI,
-        {
-          title: title,
-          content: contents,
-          institute: props.user.institute,
-          branch: props.user.branch,
-          tag: generic ? 'generic' : 'blog',
-        },
-        { withCredentials: true }
-      ).then(res => history.push('/viewPost/' + res.data.postId))
-      .catch(({response}) => response.status === 400 ? props.setUser({}) : null);
     }
   }
 
@@ -84,12 +90,18 @@ const CreatePost = props => {
           disabled={props.edit}
         />
       </div>
-      <div>
-        <label htmlFor='generic'>Generic post</label>
-        <input type='radio' name='generic' checked={generic} onChange={() => setGeneric(true)} />
-        <label htmlFor='blog'>Blog post</label>
-        <input type='radio' name='blog' checked={!generic} onChange={() => setGeneric(false)} />
-      </div>
+
+      {
+        !props.edit ?
+          <div>
+            <label htmlFor='generic'>Generic post</label>
+            <input type='radio' name='generic' checked={generic} onChange={() => setGeneric(true)} />
+            <label htmlFor='blog'>Blog post</label>
+            <input type='radio' name='blog' checked={!generic} onChange={() => setGeneric(false)} />
+          </div> :
+          null
+      }
+
       <div>
         <RenderPostContents
           contents={contents}
@@ -97,11 +109,13 @@ const CreatePost = props => {
           removeElement={removeElement}
         />
       </div>
+
       <select value='' onChange={addNewElement}>
         <option value='' disabled selected>Add Element</option>
         <option value='p'>Paragraph</option>
         <option value='img'>Image</option>
       </select>
+
       <button type='submit' onClick={handleSubmit} disabled={!canSubmit}>Submit</button>
     </div>
   );
