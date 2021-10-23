@@ -1,17 +1,25 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import RenderPostContents from './renderContents';
 
 const serverURL = process.env.REACT_APP_BE_URL || '';
-const BlogUploadAPI = process.env.REACT_APP_Create_Post || '';
+const PostUploadAPI = process.env.REACT_APP_Create_Post || '';
+const PostEditAPI = process.env.REACT_APP_Edit_Post || '';
 
 const CreatePost = props => {
   const [title, setTitle] = useState('');
   const [contents, setContents] = useState([{ type: 'p' }]);
-  const [addElement, setAddElement] = useState('');
   const [generic, setGeneric] = useState(false);
   const history = useHistory();
+
+  useEffect(() => {
+    if(props.edit) {
+      setTitle(props.post.title);
+      setContents(props.post.content);
+      setGeneric(props.post.tag === 'generic');
+    }
+  }, [props.edit, props.post]);
 
   const handleContentsChange = (index, obj) => setContents([
     ...contents.slice(0, index),
@@ -27,7 +35,6 @@ const CreatePost = props => {
       newEl = { type: 'img', src: '', description: '' };
     }
     setContents([...contents, newEl]);
-    setAddElement('');
   }
 
   const removeElement = index => setContents([...contents.slice(0, index), ...contents.slice(index+1)]);
@@ -43,17 +50,25 @@ const CreatePost = props => {
 
   const handleSubmit = () => {
     if(canSubmit) {
-      axios.post(serverURL + BlogUploadAPI,
+      if(props.edit) {
+        axios.post(serverURL + PostEditAPI,
+          {
+            postId: props.id,
+            content: contents
+          },
+          { withCredentials: true }
+        ).then(() => history.push('/viewPost/' + props.id));
+      }
+      axios.post(serverURL + PostUploadAPI,
         {
           title: title,
           content: contents,
-          author: props.user.author,
           institute: props.user.institute,
           branch: props.user.branch,
           tag: generic ? 'generic' : 'blog',
         },
         { withCredentials: true }
-      ).then(() => history.push(''))
+      ).then(res => history.push('/viewPost/' + res.data.postId))
       .catch(({response}) => response.status === 400 ? props.setUser({}) : null);
     }
   }
@@ -66,6 +81,7 @@ const CreatePost = props => {
           value={title}
           onChange={e => setTitle(e.target.value)}
           required
+          disabled={props.edit}
         />
       </div>
       <div>
@@ -81,7 +97,7 @@ const CreatePost = props => {
           removeElement={removeElement}
         />
       </div>
-      <select value={addElement} onChange={addNewElement}>
+      <select value='' onChange={addNewElement}>
         <option value='' disabled selected>Add Element</option>
         <option value='p'>Paragraph</option>
         <option value='img'>Image</option>

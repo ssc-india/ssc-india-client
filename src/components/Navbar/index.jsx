@@ -1,9 +1,10 @@
 import React from "react";
-import { useHistory } from "react-router";
+import { useHistory, useLocation } from "react-router";
 import './index.scss';
 
 const Navbar = props => {
   const history = useHistory();
+  const location = useLocation();
 
   return (
     <div className='Navbar-container'>
@@ -16,6 +17,11 @@ const Navbar = props => {
       {
         props.user ?
           <button onClick={() => history.push('/createPost')}>Create Post</button> :
+          null
+      }
+      {
+        props.user && location.pathname.slice(0, location.pathname.lastIndexOf('/')) === '/viewPost' ?
+          <button onClick={() => history.push('/editPost/' + props.postId)}>Edit Post</button> :
           null
       }
       <button onClick={props.setUser}>
