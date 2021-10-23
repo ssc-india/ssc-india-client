@@ -22,6 +22,7 @@ const SidePanel = props => {
           </div> :
           null
       }
+
       <div>
         <h5>Important Notifications</h5>
       </div>

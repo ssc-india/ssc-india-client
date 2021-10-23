@@ -16,15 +16,18 @@ const RenderPostContents = props =>
       return (
         <div key={index}>
           <button onClick={() => props.removeElement(index)}>Remove</button>
+
           <p><i>
             [Please host the images somewhere online 
             (like <a href='https://imgur.com/upload'>https://imgur.com/upload</a>)
             and provide link here. The link will not be visible to readers once post is ready.]
           </i></p>
+
           <label htmlFor='src'>URL</label>
           <input type='text' name='src' value={el.src}
             onChange={e => props.handleContentsChange(index, { src: e.target.value })}
           />
+
           <img src={el.src} alt={el.description} />
           <label htmlFor='description'>Image description</label>
           <input type='text' name='description' value={el.description}

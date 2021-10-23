@@ -10,15 +10,15 @@ const showPostAPI = process.env.REACT_APP_View_Post;
 const ShowPost = props => {
   const [post, setPost] = useState({});
 
-  useEffect(() => {
+  useEffect(() =>
     axios.get(serverURL + showPostAPI, { params: { id: props.id } })
       .then(res => {
         setPost(res.data.posts[0]);
         props.setQuery({ institute: res.data.posts[0].institute });
         if(props.user) props.setPost(res.data.posts[0]);
-      });
+      })
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.id]);
+  , [props.id]);
 
   return (
     <div className='ShowPost'>
@@ -26,11 +26,13 @@ const ShowPost = props => {
         <h2>{post.title}</h2>
         <p>{post.timestamp}</p>
       </div>
+
       <div className='postContents'>
         <LoadPostContents
           contents={post.content}
         />
       </div>
+
       <LoadAuthorInfo
         post={post}
       />
