@@ -9,6 +9,7 @@ import './App.scss';
 const App = () => {
   const [user, setUser] = useState({});
   const [query, setQuery] = useState({});
+  const [post, setPost] = useState([]);
   const history = useHistory();
 
   const serverURL = process.env.REACT_APP_BE_URL || '';
@@ -20,8 +21,9 @@ const App = () => {
 
   return (
     <div className="App">
-      <Navbar user={user.name}
+      <Navbar user={user}
         setUser={() => 'name' in user ? signout() : history.push('/authUser')}
+        postId={post.id} postAuthor={post.author}
       />
       <div className='App-contents'>
         <SidePanel query={query} setQuery={setQuery} />
@@ -34,7 +36,11 @@ const App = () => {
               }
             />
             <Route exact path='/viewPost/:id'
-              render={props => <ShowPost id={props.match.params.id} setQuery={setQuery} />}
+              render={props =>
+                <ShowPost id={props.match.params.id} setQuery={setQuery}
+                  user={user.name} setPost={setPost}
+                />
+              }
             />
             <Route exact path='/authUser' render={() => <AuthenticateUser setUser={setUser} />} />
             {
@@ -42,7 +48,12 @@ const App = () => {
                 <AuthenticateUser setUser={setUser} /> :
                 null
             }
-            <Route exact path='/createPost' render={() => <CreatePost user={user.name} setUser={setUser} />} />
+            <Route exact path='/createPost' render={() => <CreatePost user={user} setUser={setUser} />} />
+            <Route exact path='/editPost/:id'
+              render={props =>
+                <CreatePost edit user={user.id} setUser={setUser} post={post} id={props.match.params.id} />
+              }
+            />
             <Redirect to='/' />
           </Switch>
         </div>

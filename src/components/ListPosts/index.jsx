@@ -14,6 +14,7 @@ const ListPosts = ({passedQuery}) => {
   useEffect(() => {
     axios.get(serverURL + showPostAPI, { params: { ...query } })
       .then(res => setPosts(res.data.posts))
+      .catch(err => console.log(err))
   }, [query]);
 
   return (

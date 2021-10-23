@@ -14,7 +14,7 @@ const SidePanel = props => {
   return (
     <div className='SidePanel'>
       {
-        location.pathname.slice(0, location.pathname.lastIndexOf('/')) ?
+        location.pathname.slice(0, location.pathname.lastIndexOf('/')) === '/viewPost' ?
           <div className='sideLinks'>
             <Link to='/'>HomePage</Link>
             <button onClick={() => similarPosts({ institute: props.query.institute || '' })}>Posts from this institute</button>
