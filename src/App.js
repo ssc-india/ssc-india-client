@@ -4,7 +4,6 @@ import { Redirect, Route, Switch, useHistory } from "react-router";
 import { Footer, Navbar, SidePanel } from "./components";
 import { AuthenticateUser, CreatePost, HomePage, ShowPost } from "./containers";
 import './App.scss';
-// import DevTest from "./dev_test";
 
 const App = () => {
   const [user, setUser] = useState({});
@@ -22,36 +21,54 @@ const App = () => {
   return (
     <div className="App">
       <Navbar user={user}
+        postId={post.id}
+        postAuthor={post.author}
         setUser={() => 'name' in user ? signout() : history.push('/authUser')}
-        postId={post.id} postAuthor={post.author}
       />
+
       <div className='App-contents'>
         <SidePanel query={query} setQuery={setQuery} />
-        {/* <DevTest /> */}
+
         <div className='main-contents'>
           <Switch>
-            <Route exact path='/'
-              render={() =>
+            <Route exact path='/' render={() =>
                 <HomePage user={'name' in user ? user.name : null} query={query} />
               }
             />
-            <Route exact path='/viewPost/:id'
-              render={props =>
-                <ShowPost id={props.match.params.id} setQuery={setQuery}
-                  user={user.name} setPost={setPost}
+
+            <Route exact path='/viewPost/:id' render={props =>
+                <ShowPost
+                  id={props.match.params.id}
+                  setQuery={setQuery}
+                  user={user.name}
+                  setPost={setPost}
                 />
               }
             />
-            <Route exact path='/authUser' render={() => <AuthenticateUser setUser={setUser} />} />
+
+            {/* <Route exact path='/authUser' render={() =>
+                <AuthenticateUser setUser={setUser} />
+              }
+            /> */}
+
             {
               !user.name ?
                 <AuthenticateUser setUser={setUser} /> :
                 null
             }
-            <Route exact path='/createPost' render={() => <CreatePost user={user} setUser={setUser} />} />
-            <Route exact path='/editPost/:id'
-              render={props =>
-                <CreatePost edit user={user.id} setUser={setUser} post={post} id={props.match.params.id} />
+
+            <Route exact path='/createPost' render={() =>
+                <CreatePost user={user} setUser={setUser} />
+              }
+            />
+
+            <Route exact path='/editPost/:id' render={props =>
+                <CreatePost
+                  edit
+                  user={user.id}
+                  setUser={setUser}
+                  post={post}
+                  id={props.match.params.id} />
               }
             />
             <Redirect to='/' />
