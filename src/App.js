@@ -21,8 +21,9 @@ const App = () => {
 
   return (
     <div className="App">
-      <Navbar user={user.name}
-        setUser={() => 'name' in user ? signout() : history.push('/authUser')} postId={post.id}
+      <Navbar user={user}
+        setUser={() => 'name' in user ? signout() : history.push('/authUser')}
+        postId={post.id} postAuthor={post.author}
       />
       <div className='App-contents'>
         <SidePanel query={query} setQuery={setQuery} />
