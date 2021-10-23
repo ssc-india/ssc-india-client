@@ -13,7 +13,8 @@ const AuthenticateUser = ({ setUser }) => {
 
   const login = () =>
     axios.post(serverURL + AuthenticateUserAPI,
-      { email: email, password: password }
+      { email: email, password: password },
+      { withCredentials: true }
     ).then(res => {
       if(res.status === 200) {
         setUser(res.data);

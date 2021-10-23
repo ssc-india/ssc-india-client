@@ -47,10 +47,12 @@ const CreatePost = props => {
         {
           title: title,
           content: contents,
-          insitute: props.insitute,
-          branch: props.branch,
+          author: props.user.author,
+          institute: props.user.institute,
+          branch: props.user.branch,
           tag: generic ? 'generic' : 'blog',
-        }
+        },
+        { withCredentials: true }
       ).then(() => history.push(''))
       .catch(({response}) => response.status === 400 ? props.setUser({}) : null);
     }
