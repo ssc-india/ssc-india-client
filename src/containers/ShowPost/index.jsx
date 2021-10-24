@@ -14,8 +14,8 @@ const ShowPost = props => {
     axios.get(serverURL + showPostAPI, { params: { id: props.id } })
       .then(res => {
         setPost(res.data.posts[0]);
-        props.setQuery({ institute: res.data.posts[0].institute });
-        if(props.user) props.setPost(res.data.posts[0]);
+        props.setSimilarQuery({ institute: res.data.posts[0].institute, branch: res.data.posts[0].branch });
+        props.setPost(res.data.posts[0]);
       })
   // eslint-disable-next-line react-hooks/exhaustive-deps
   , [props.id]);

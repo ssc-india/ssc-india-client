@@ -9,6 +9,7 @@ const App = () => {
   const [user, setUser] = useState({});
   const [query, setQuery] = useState({});
   const [post, setPost] = useState([]);
+  const [similarQuery, setSimilarQuery] = useState({});
   const history = useHistory();
 
   const serverURL = process.env.REACT_APP_BE_URL || '';
@@ -22,24 +23,24 @@ const App = () => {
     <div className="App">
       <Navbar user={user}
         postId={post.id}
-        postAuthor={post.author}
+        postAuthor={post.author}    // MAKE THIS INTO post.author.id
         setUser={() => 'name' in user ? signout() : history.push('/authUser')}
       />
 
       <div className='App-contents'>
-        <SidePanel query={query} setQuery={setQuery} />
+        <SidePanel similarQuery={similarQuery} setQuery={setQuery} />
 
         <div className='main-contents'>
           <Switch>
             <Route exact path='/' render={() =>
-                <HomePage user={'name' in user ? user.name : null} query={query} />
+                <HomePage user={'name' in user ? user.name : null} query={query} setPost={setPost} />
               }
             />
 
             <Route exact path='/viewPost/:id' render={props =>
                 <ShowPost
                   id={props.match.params.id}
-                  setQuery={setQuery}
+                  setSimilarQuery={setSimilarQuery}
                   user={user.name}
                   setPost={setPost}
                 />

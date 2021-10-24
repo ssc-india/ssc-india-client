@@ -19,7 +19,7 @@ const Navbar = props => {
 
   return (
     <div className='Navbar-container'>
-      <button onClick={() => history.goBack()}>Back</button>
+      <button onClick={() => history.goBack()} disabled={!props.postId}>Back</button>
 
       {
         props.user.name ?
