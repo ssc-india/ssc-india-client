@@ -23,7 +23,7 @@ const App = () => {
     <div className="App">
       <Navbar user={user}
         postId={post.id}
-        postAuthor={post.author}    // MAKE THIS INTO post.author.id
+        postAuthor={post.author ? post.author.id : ''}
         setUser={() => 'name' in user ? signout() : history.push('/authUser')}
       />
 
