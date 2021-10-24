@@ -13,6 +13,7 @@ const CreatePost = props => {
   const [generic, setGeneric] = useState(false);
   const history = useHistory();
 
+  console.log(contents);
   useEffect(() => {
     if(props.edit) {
       setTitle(props.post.title);
@@ -33,6 +34,8 @@ const CreatePost = props => {
       newEl = { type: 'p', content: '' };
     } else if(e.target.value === 'img') {
       newEl = { type: 'img', src: '', description: '' };
+    } else if(e.target.value === 'ul') {
+      newEl = { type: 'ul', contents: [''] };
     }
     setContents([...contents, newEl]);
   }
@@ -109,6 +112,25 @@ const CreatePost = props => {
           contents={contents}
           handleContentsChange={handleContentsChange}
           removeElement={removeElement}
+          addBulletListLine={index => setContents([
+            ...contents.slice(0, index),
+            {
+              ...contents[index],
+              contents: [...contents[index].contents, '']
+            },
+            ...contents.slice(index+1)
+          ])}
+          removeBulletListLine={(index, lineIndex) => setContents([
+            ...contents.slice(0, index),
+            {
+              ...contents[index],
+              contents: [
+                ...contents[index].contents.slice(0, lineIndex),
+                ...contents[index].contents.slice(lineIndex+1),
+              ]
+            },
+            ...contents.slice(index+1)
+          ])}
         />
       </div>
 
@@ -116,6 +138,7 @@ const CreatePost = props => {
         <option value='' disabled selected>Add Element</option>
         <option value='p'>Paragraph</option>
         <option value='img'>Image</option>
+        <option value='ul'>Bullet List</option>
       </select>
 
       <button type='submit' onClick={handleSubmit} disabled={!canSubmit}>Submit</button>
