@@ -1,0 +1,33 @@
+.DeleteModal {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+
+  .DeleteModalBg {
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    opacity: 0.3;
+    position: fixed;
+  }
+
+  .DeleteModalContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    border: 1px solid black;
+    padding: 20px;
+    z-index: 2;
+
+    .buttonsContainer {
+      display: flex;
+      flex-direction: row;
+    }
+  }
+}
