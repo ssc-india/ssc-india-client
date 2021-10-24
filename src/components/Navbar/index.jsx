@@ -17,7 +17,10 @@ const Navbar = props => {
     axios.post(serverURL + deletePostAPI,
       { postId: postId },
       { withCredentials: true }
-    ).then(() => history.push('/'))
+    ).then(() => {
+      setDeleteModalVisible(false);
+      history.push('/');
+    })
     .catch(err => console.log(err));
 
   return (
