@@ -1,12 +1,15 @@
 import axios from "axios";
-import React from "react";
+import React, { useState } from "react";
 import { useHistory, useLocation } from "react-router";
+import DeleteModal from "../../modals/DeleteModal";
 import './index.scss';
 
 const serverURL = process.env.REACT_APP_BE_URL;
 const deletePostAPI = process.env.REACT_APP_Delete_Post;
 
 const Navbar = props => {
+  const [deleteModalVisible, setDeleteModalVisible] = useState(false);
+
   const history = useHistory();
   const location = useLocation();
 
@@ -19,7 +22,7 @@ const Navbar = props => {
 
   return (
     <div className='Navbar-container'>
-      <button onClick={() => history.goBack()}>Back</button>
+      <button onClick={() => history.goBack()} disabled={location.pathname === '/'}>Back</button>
 
       {
         props.user.name ?
@@ -44,7 +47,16 @@ const Navbar = props => {
         props.user.name &&
         location.pathname.slice(0, location.pathname.lastIndexOf('/')) === '/viewPost' &&
         props.user.id === props.postAuthor ?
-          <button onClick={() => deletePost(props.postId)}>Delete Post</button> :
+          <button onClick={() => setDeleteModalVisible(true)}>Delete Post</button> :
+          null
+      }
+
+      {
+        deleteModalVisible?
+          <DeleteModal
+            confirmDelete={() => deletePost(props.postId)}
+            cancelDelete={() => setDeleteModalVisible(false)}
+          /> :
           null
       }
 

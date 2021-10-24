@@ -1,0 +1,14 @@
+.AddImg {
+  .imgShow {
+    display: flex;
+    flex-direction: column;
+
+    img {
+      max-width: 70%;
+    }
+  }
+}
+
+.removeButton {
+  float: right;
+}

@@ -102,6 +102,8 @@ const CreatePost = props => {
           null
       }
 
+      <hr />
+
       <div>
         <RenderPostContents
           contents={contents}

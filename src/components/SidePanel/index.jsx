@@ -15,10 +15,10 @@ const SidePanel = props => {
     <div className='SidePanel'>
       {
         location.pathname.slice(0, location.pathname.lastIndexOf('/')) === '/viewPost' ?
-          <div>
+          <div className='sideLinks'>
             <Link to='/'>HomePage</Link>
-            <button onClick={() => similarPosts({ institute: props.query.institute || '' })}>Posts from this institute</button>
-            <button onClick={() => similarPosts({ branch: props.query.branch || '' })}>Posts from this branch</button>
+            <button onClick={() => similarPosts({ institute: props.similarQuery.institute || '' })}>Posts from this institute</button>
+            <button onClick={() => similarPosts({ branch: props.similarQuery.branch || '' })}>Posts from this branch</button>
           </div> :
           null
       }

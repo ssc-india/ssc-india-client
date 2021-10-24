@@ -7,4 +7,9 @@
   height: 100vh;
   padding: 5px;
   border: 1px solid black;
+
+  .sideLinks {
+    display: flex;
+    flex-direction: column;
+  }
 }
