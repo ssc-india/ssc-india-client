@@ -1,21 +1,28 @@
 import React from "react";
-import { Link, useRouteMatch } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
+import './index.scss';
 
 const SidePanel = props => {
-  const routeMatch = useRouteMatch();
+  const location = useLocation();
+  const history = useHistory();
   
-  const similarPosts = obj => props.setQuery(obj);
+  const similarPosts = obj => {
+    props.setQuery(obj);
+    history.push('/');
+  }
 
   return (
     <div className='SidePanel'>
       {
-        routeMatch.path === '/viewPost/:id' ?
-          <div>
+        location.pathname.slice(0, location.pathname.lastIndexOf('/')) === '/viewPost' ?
+          <div className='sideLinks'>
             <Link to='/'>HomePage</Link>
-            <button onClick={() => similarPosts({ institute: props.query.institute || '' })}>Posts from this institute</button>
+            <button onClick={() => similarPosts({ institute: props.similarQuery.institute || '' })}>Posts from this institute</button>
+            <button onClick={() => similarPosts({ branch: props.similarQuery.branch || '' })}>Posts from this branch</button>
           </div> :
           null
       }
+
       <div>
         <h5>Important Notifications</h5>
       </div>

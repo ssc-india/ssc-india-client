@@ -1,13 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ListPosts } from "../../components";
-// import { useHistory } from "react-router";
 
-const HomePage = ({query}) => {
-  // const history = useHistory();
-  
+const HomePage = props => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => props.setPost([]), []);
+
   return (
     <div>
-      <ListPosts passedQuery={query} />
+      <ListPosts passedQuery={props.query} />
     </div>
   );
 }

@@ -13,14 +13,14 @@ const AuthenticateUser = ({ setUser }) => {
 
   const login = () =>
     axios.post(serverURL + AuthenticateUserAPI,
-      { email: email, password: password }
+      { email: email, password: password },
+      { withCredentials: true }
     ).then(res => {
       if(res.status === 200) {
         setUser(res.data);
         history.push('/');
       }
     }).catch(({ response }) => {
-      // console.log(response.status);
       if(response.status === 400) {
         setLoginFail(true);
       }
@@ -35,6 +35,7 @@ const AuthenticateUser = ({ setUser }) => {
           </div> :
           null
       }
+
       <div>
         <label htmlFor='email'>Email</label>
         <input type='text' name='email' id='email'
@@ -42,6 +43,7 @@ const AuthenticateUser = ({ setUser }) => {
           required
         />
       </div>
+
       <div>
         <label htmlFor='password'>Password</label>
         <input type='password' name='password' id='password'
@@ -49,6 +51,7 @@ const AuthenticateUser = ({ setUser }) => {
           required
         />
       </div>
+
       <button type='submit' onClick={login} disabled={email.length*password.length === 0}>
         Login
       </button>

@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import ListPostsFilter from "../ListPostsFilter";
 import LoadPostsList from "./loadPostsList";
+import './index.scss';
 
 const serverURL = process.env.REACT_APP_BE_URL;
 const showPostAPI = process.env.REACT_APP_View_Post;
@@ -11,12 +12,13 @@ const ListPosts = ({passedQuery}) => {
   const [query, setQuery] = useState(passedQuery);
 
   useEffect(() => {
-    axios.get(serverURL + showPostAPI, { ...query })
+    axios.get(serverURL + showPostAPI, { params: { ...query } })
       .then(res => setPosts(res.data.posts))
+      .catch(err => console.log(err))
   }, [query]);
 
   return (
-    <div>
+    <div className='ListPosts'>
       <ListPostsFilter setQuery={setQuery} />
       <LoadPostsList posts={posts} />
     </div>
