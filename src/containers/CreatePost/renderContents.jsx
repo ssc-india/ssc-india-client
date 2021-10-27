@@ -1,4 +1,5 @@
 import React from "react";
+import BulletList from "./bulletList";
 import './index.scss';
 
 const RenderPostContents = props =>
@@ -43,6 +44,20 @@ const RenderPostContents = props =>
           </div>
 
           <hr />
+        </div>
+      );
+    } else if(el.type === 'ul') {
+      console.log(index);
+      return (
+        <div>
+          <button className='removeButton' onClick={() => props.removeElement(index)}>Remove</button>
+
+          <BulletList
+            contents={el.contents}
+            addLine={() => props.addBulletListLine(index)}
+            removeLine={(lineIndex) => props.removeBulletListLine(index, lineIndex)}
+            editBulletListLine={(lineIndex, line) => props.editBulletListLine(index, lineIndex, line)}
+          />
         </div>
       );
     }
