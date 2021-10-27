@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useHistory, useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import './index.scss';
 
 const SidePanel = props => {
@@ -16,7 +16,7 @@ const SidePanel = props => {
       {
         location.pathname.slice(0, location.pathname.lastIndexOf('/')) === '/viewPost' ?
           <div className='sideLinks'>
-            <Link to='/'>HomePage</Link>
+            <button onClick={() => similarPosts({  })}>HomePage</button>
             <button onClick={() => similarPosts({ institute: props.similarQuery.institute || '' })}>Posts from this institute</button>
             <button onClick={() => similarPosts({ branch: props.similarQuery.branch || '' })}>Posts from this branch</button>
           </div> :

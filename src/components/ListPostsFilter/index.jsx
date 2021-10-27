@@ -4,7 +4,7 @@ import ListInstitutes from "./listInstitutes";
 import './index.scss';
 
 const ListPostsFilter = props => {
-  const [filter, setFilter] = useState({ tag: '', institute: '', branch: '' });
+  const [filter, setFilter] = useState(props.query);
   const [branches, setBranches] = useState(new Set());
 
   const filterChange = obj => {
