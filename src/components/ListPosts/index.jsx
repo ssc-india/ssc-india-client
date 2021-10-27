@@ -19,7 +19,7 @@ const ListPosts = ({passedQuery}) => {
 
   return (
     <div className='ListPosts'>
-      <ListPostsFilter setQuery={setQuery} />
+      <ListPostsFilter query={query} setQuery={setQuery} />
       <LoadPostsList posts={posts} />
     </div>
   );

@@ -47,7 +47,6 @@ const RenderPostContents = props =>
         </div>
       );
     } else if(el.type === 'ul') {
-      console.log(index);
       return (
         <div>
           <button className='removeButton' onClick={() => props.removeElement(index)}>Remove</button>
@@ -58,6 +57,23 @@ const RenderPostContents = props =>
             removeLine={(lineIndex) => props.removeBulletListLine(index, lineIndex)}
             editBulletListLine={(lineIndex, line) => props.editBulletListLine(index, lineIndex, line)}
           />
+        </div>
+      );
+    } else if(el.type === 'h2') {
+      return (
+        <div>
+          <button className='removeButton' onClick={() => props.removeElement(index)}>Remove</button>
+          <label htmlFor='heading'>Heading</label>
+          <input type='text' name='heading' value={el.text}
+            onChange={e => props.handleContentsChange(index, { text: e.target.value })}
+          />
+        </div>
+      );
+    } else if(el.type === 'hr') {
+      return (
+        <div>
+          <button className='removeButton' onClick={() => props.removeElement(index)}>Remove</button>
+          <hr />
         </div>
       );
     }
