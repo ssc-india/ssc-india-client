@@ -18,6 +18,18 @@ const LoadPostContents = props =>
             <hr />
           </div>
         );
+      } else if(el.type === 'ul') {
+        return (
+          <div key={index}>
+            <ul>
+              {
+                el.contents.map((line, lineIndex) =>
+                  <li key={lineIndex}>{line}</li>)
+              }
+            </ul>
+            <hr />
+          </div>
+        );
       }
       return null;
     }) :
