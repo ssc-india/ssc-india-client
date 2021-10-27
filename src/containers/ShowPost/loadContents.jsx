@@ -7,7 +7,6 @@ const LoadPostContents = props =>
         return (
           <div key={index}>
             <p>{el.content}</p>
-            <hr />
           </div>
         );
       } else if(el.type === 'img') {
@@ -15,7 +14,6 @@ const LoadPostContents = props =>
           <div key={index} className='postImg'>
             <img src={el.src} alt={el.description} />
             <p><i>{el.description}</i></p>
-            <hr />
           </div>
         );
       } else if(el.type === 'ul') {
@@ -27,6 +25,17 @@ const LoadPostContents = props =>
                   <li key={lineIndex}>{line}</li>)
               }
             </ul>
+          </div>
+        );
+      } else if(el.type === 'h2') {
+        return (
+          <div key={index}>
+            <h2>{el.text}</h2>
+          </div>
+        );
+      } else if(el.type === 'hr') {
+        return (
+          <div key={index}>
             <hr />
           </div>
         );

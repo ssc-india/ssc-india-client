@@ -13,7 +13,6 @@ const CreatePost = props => {
   const [generic, setGeneric] = useState(false);
   const history = useHistory();
 
-  console.log(contents);
   useEffect(() => {
     if(props.edit) {
       setTitle(props.post.title);
@@ -36,6 +35,10 @@ const CreatePost = props => {
       newEl = { type: 'img', src: '', description: '' };
     } else if(e.target.value === 'ul') {
       newEl = { type: 'ul', contents: [''] };
+    } else if(e.target.value === 'h2') {
+      newEl = { type: 'h2', text: '' }
+    } else if(e.target.value === 'hr') {
+      newEl = { type: 'hr' }
     }
     setContents([...contents, newEl]);
   }
@@ -151,6 +154,8 @@ const CreatePost = props => {
         <option value='p'>Paragraph</option>
         <option value='img'>Image</option>
         <option value='ul'>Bullet List</option>
+        <option value='h2'>Heading</option>
+        <option value='hr'>Horizontal Line</option>
       </select>
 
       <button type='submit' onClick={handleSubmit} disabled={!canSubmit}>Submit</button>
