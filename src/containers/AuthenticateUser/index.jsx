@@ -55,6 +55,8 @@ const AuthenticateUser = ({ setUser }) => {
       <button type='submit' onClick={login} disabled={email.length*password.length === 0}>
         Login
       </button>
+
+      <button onClick={() => history.push('/userSignup')}>Sign up</button>
     </div>
   );
 }
