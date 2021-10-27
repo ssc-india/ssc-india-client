@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Redirect, Route, Switch, useHistory } from "react-router";
 import { Footer, Navbar, SidePanel } from "./components";
-import { AuthenticateUser, CreatePost, HomePage, ShowPost } from "./containers";
+import { AuthenticateUser, CreatePost, HomePage, ShowPost, UserSignup, VerifyEmail } from "./containers";
 import './App.scss';
 
 const App = () => {
@@ -23,7 +23,7 @@ const App = () => {
     <div className="App">
       <Navbar user={user}
         postId={post.id}
-        postAuthor={post.author}    // MAKE THIS INTO post.author.id
+        postAuthor={post.author ? post.author.id : ''}
         setUser={() => 'name' in user ? signout() : history.push('/authUser')}
       />
 
@@ -46,6 +46,10 @@ const App = () => {
                 />
               }
             />
+
+            <Route exact path='/userSignup' component={UserSignup} />
+
+            <Route exact path='/verify/:id' render={props => <VerifyEmail id={props.match.params.id} />} />
 
             {/* <Route exact path='/authUser' render={() =>
                 <AuthenticateUser setUser={setUser} />
