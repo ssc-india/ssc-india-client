@@ -49,7 +49,7 @@ const CreatePost = props => {
   var canSubmit = title.length > 0 && contents.length > 0;
   if(canSubmit) {
     for(const el of contents) {
-      if(!('content' in el && el.content.length > 0) && !('src' in el && el.src.length > 0)) {
+      if(('content' in el && el.content.length === 0) || ('src' in el && el.src.length === 0)) {
         canSubmit = false;
       }
     }
@@ -127,6 +127,18 @@ const CreatePost = props => {
               contents: [
                 ...contents[index].contents.slice(0, lineIndex),
                 ...contents[index].contents.slice(lineIndex+1),
+              ]
+            },
+            ...contents.slice(index+1)
+          ])}
+          editBulletListLine={(index, lineIndex, line) => setContents([
+            ...contents.slice(0, index),
+            {
+              ...contents[index],
+              contents: [
+                ...contents[index].contents.slice(0, lineIndex),
+                line,
+                ...contents[index].contents.slice(lineIndex+1)
               ]
             },
             ...contents.slice(index+1)

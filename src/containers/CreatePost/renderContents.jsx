@@ -56,6 +56,7 @@ const RenderPostContents = props =>
             contents={el.contents}
             addLine={() => props.addBulletListLine(index)}
             removeLine={(lineIndex) => props.removeBulletListLine(index, lineIndex)}
+            editBulletListLine={(lineIndex, line) => props.editBulletListLine(index, lineIndex, line)}
           />
         </div>
       );
