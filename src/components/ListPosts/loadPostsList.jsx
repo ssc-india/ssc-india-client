@@ -8,7 +8,7 @@ const LoadPostsList = ({posts}) => {
   const postsList = posts.map((post, index) =>
     <div key={index} onClick={() => history.push(`/viewPost/${post.id}`)} className='LoadPostsList'>
       <h3>{post.title}</h3>
-      <p>{ 'author' in post ? post.author.name : null }</p>
+      <p>{ 'author' in post ? post.author.username : null }</p>
       <p>{ 'branch' in post ? post.branch : null }</p>
       <p>{ 'institute' in post ? post.institute : null }</p>
     </div>
