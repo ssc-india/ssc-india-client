@@ -41,7 +41,8 @@ const Navbar = props => {
 
       {
         props.user.name &&
-        location.pathname.slice(0, location.pathname.lastIndexOf('/')) === '/viewPost' ?
+        location.pathname.slice(0, location.pathname.lastIndexOf('/')) === '/viewPost' &&
+        props.user.id === props.postAuthor ?
           <button onClick={() => history.push('/editPost/' + props.postId)}>Edit Post</button> :
           null
       }
