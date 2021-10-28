@@ -6,14 +6,14 @@ const serverURL = process.env.REACT_APP_BE_URL || '';
 const AuthenticateUserAPI = process.env.REACT_APP_Auth_User || '';
 
 const AuthenticateUser = ({ setUser }) => {
-  const [email, setEmail] = useState('');
+  const [identity, setIdentity] = useState('');
   const [password, setPassword] = useState('');
   const [loginFail, setLoginFail] = useState(false);
   const history = useHistory();
 
   const login = () =>
     axios.post(serverURL + AuthenticateUserAPI,
-      { email: email, password: password },
+      { identity: identity, password: password },
       { withCredentials: true }
     ).then(res => {
       if(res.status === 200) {
@@ -37,9 +37,9 @@ const AuthenticateUser = ({ setUser }) => {
       }
 
       <div>
-        <label htmlFor='email'>Email</label>
-        <input type='text' name='email' id='email'
-          onChange={e => setEmail(e.target.value)}
+        <label htmlFor='identity'>Email or username</label>
+        <input type='text' name='identity' id='identity'
+          onChange={e => setIdentity(e.target.value)}
           required
         />
       </div>
@@ -52,7 +52,7 @@ const AuthenticateUser = ({ setUser }) => {
         />
       </div>
 
-      <button type='submit' onClick={login} disabled={email.length*password.length === 0}>
+      <button type='submit' onClick={login} disabled={identity.length*password.length === 0}>
         Login
       </button>
 
