@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { ErrorMessages } from "../../components";
 import './index.scss';
 import ListBranches from "./listBranches";
 import ListInstitutes from "./listInstitutes";
@@ -19,7 +20,7 @@ const UserSignup = () => {
   const [password, setPassword] = useState('');
   const [verifyUsername, setVerifyUsername] = useState('not verified');
   const [userCreated, setUserCreated] = useState({});
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [errorMessages, setErrorMessages] = useState([]);
 
   useEffect(() =>
     axios.get(serverURL + ListInstitutesAPI)
@@ -30,7 +31,7 @@ const UserSignup = () => {
 
   const submit = () => {
     setUserCreated({});
-    setErrorMessage(null);
+    setErrorMessages([]);
 
     axios.post(serverURL + SignupUserAPI,
       {
@@ -55,7 +56,7 @@ const UserSignup = () => {
       setEmail('');
       setPassword('');
       setVerifyUsername('not verified');
-    }).catch(({response}) => setErrorMessage(response.data.errors[0].message));
+    }).catch(({response}) => setErrorMessages(response.data.errors));
   }
 
   const checkUsernameUniqueness = () => {
@@ -64,9 +65,9 @@ const UserSignup = () => {
       { username: username }
     ).then(() => {
       setVerifyUsername('verified');
-      setErrorMessage(null);
+      setErrorMessages([]);
     }).catch(({response}) => {
-      setErrorMessage(response.data.errors[0].message);
+      setErrorMessages(response.data.errors);
       setVerifyUsername('not verified');
     });
   }
@@ -96,10 +97,8 @@ const UserSignup = () => {
       }
 
       {
-        errorMessage ?
-          <div className='error'>
-            <p>Failed; {errorMessage}</p>
-          </div> :
+        errorMessages.length ?
+          <ErrorMessages errors={errorMessages} /> :
           null
       }
 

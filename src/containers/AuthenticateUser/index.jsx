@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useHistory } from "react-router";
+import { ErrorMessages } from "../../components";
 
 const serverURL = process.env.REACT_APP_BE_URL || '';
 const AuthenticateUserAPI = process.env.REACT_APP_Auth_User || '';
@@ -8,7 +9,7 @@ const AuthenticateUserAPI = process.env.REACT_APP_Auth_User || '';
 const AuthenticateUser = ({ setUser }) => {
   const [identity, setIdentity] = useState('');
   const [password, setPassword] = useState('');
-  const [loginFail, setLoginFail] = useState(false);
+  const [errorMessages, setErrorMessages] = useState([]);
   const history = useHistory();
 
   const login = () =>
@@ -16,23 +17,15 @@ const AuthenticateUser = ({ setUser }) => {
       { identity: identity, password: password },
       { withCredentials: true }
     ).then(res => {
-      if(res.status === 200) {
-        setUser(res.data);
-        history.push('/');
-      }
-    }).catch(({ response }) => {
-      if(response.status === 400) {
-        setLoginFail(true);
-      }
-    });
+      setUser(res.data);
+      history.push('/');
+    }).catch(({ response }) => setErrorMessages(response.data.errors));
 
   return (
     <div>
       {
-        loginFail ?
-          <div>
-            Login failed
-          </div> :
+        errorMessages.length ?
+          <ErrorMessages errors={errorMessages} /> :
           null
       }
 
