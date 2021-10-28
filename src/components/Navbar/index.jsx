@@ -28,8 +28,8 @@ const Navbar = props => {
       <button onClick={() => history.goBack()} disabled={location.pathname === '/'}>Back</button>
 
       {
-        props.user.name ?
-          <p>Signed in as {props.user.name}</p> :
+        props.user.username ?
+          <p>Signed in as {props.user.username}</p> :
           null
       }
 
