@@ -16,10 +16,8 @@ const AuthenticateUser = ({ setUser }) => {
       { identity: identity, password: password },
       { withCredentials: true }
     ).then(res => {
-      if(res.status === 200) {
-        setUser(res.data);
-        history.push('/');
-      }
+      setUser(res.data);
+      history.push('/');
     }).catch(({ response }) => setErrorMessage(response.data.errors[0].message));
 
   return (
