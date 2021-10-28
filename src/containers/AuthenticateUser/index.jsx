@@ -8,7 +8,7 @@ const AuthenticateUserAPI = process.env.REACT_APP_Auth_User || '';
 const AuthenticateUser = ({ setUser }) => {
   const [identity, setIdentity] = useState('');
   const [password, setPassword] = useState('');
-  const [loginFail, setLoginFail] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
   const history = useHistory();
 
   const login = () =>
@@ -20,18 +20,14 @@ const AuthenticateUser = ({ setUser }) => {
         setUser(res.data);
         history.push('/');
       }
-    }).catch(({ response }) => {
-      if(response.status === 400) {
-        setLoginFail(true);
-      }
-    });
+    }).catch(({ response }) => setErrorMessage(response.data.errors[0].message));
 
   return (
     <div>
       {
-        loginFail ?
-          <div>
-            Login failed
+        errorMessage ?
+          <div className='error'>
+            {errorMessage}
           </div> :
           null
       }
