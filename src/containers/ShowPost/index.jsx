@@ -24,7 +24,7 @@ const ShowPost = props => {
     <div className='ShowPost'>
       <div className='postHead'>
         <h2>{post.title}</h2>
-        <p>{post.timestamp}</p>
+        <p>{Date(post.timestamp)}</p>
       </div>
 
       <div className='postContents'>
