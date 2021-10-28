@@ -1,8 +1,9 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Redirect, Route, Switch, useHistory } from "react-router";
 import { Footer, Navbar, SidePanel } from "./components";
 import { AuthenticateUser, CreatePost, HomePage, ShowPost, UserSignup, VerifyEmail } from "./containers";
+import { CurrentUserContext } from "./contexts";
 import './App.scss';
 
 const App = () => {
@@ -11,6 +12,7 @@ const App = () => {
   const [post, setPost] = useState([]);
   const [similarQuery, setSimilarQuery] = useState({});
   const history = useHistory();
+  const currentUser = useContext(CurrentUserContext);
 
   const serverURL = process.env.REACT_APP_BE_URL || '';
   const DeauthUserAPI = process.env.REACT_APP_Deauth_User || '';
