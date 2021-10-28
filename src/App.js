@@ -27,6 +27,7 @@ const App = () => {
         postId={post.id}
         postAuthor={post.author ? post.author.id : ''}
         setUser={() => 'name' in user ? signout() : history.push('/authUser')}
+        isAuthenticated={currentUser.isAuthenticated()}
       />
 
       <div className='App-contents'>

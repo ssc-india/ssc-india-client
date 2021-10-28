@@ -28,19 +28,19 @@ const Navbar = props => {
       <button onClick={() => history.goBack()} disabled={location.pathname === '/'}>Back</button>
 
       {
-        props.user.username ?
+        props.isAuthenticated ?
           <p>Signed in as {props.user.username}</p> :
           null
       }
 
       {
-        props.user.name ?
+        props.isAuthenticated ?
           <button onClick={() => history.push('/createPost')}>Create Post</button> :
           null
       }
 
       {
-        props.user.name &&
+        props.isAuthenticated &&
         location.pathname.slice(0, location.pathname.lastIndexOf('/')) === '/viewPost' &&
         props.user.id === props.postAuthor ?
           <button onClick={() => history.push('/editPost/' + props.postId)}>Edit Post</button> :
@@ -48,7 +48,7 @@ const Navbar = props => {
       }
 
       {
-        props.user.name &&
+        props.isAuthenticated &&
         location.pathname.slice(0, location.pathname.lastIndexOf('/')) === '/viewPost' &&
         props.user.id === props.postAuthor ?
           <button onClick={() => setDeleteModalVisible(true)}>Delete Post</button> :
@@ -65,7 +65,7 @@ const Navbar = props => {
       }
 
       <button onClick={props.setUser}>
-        { props.user.name ? 'Sign out' : 'Sign in' }
+        { props.isAuthenticated ? 'Sign out' : 'Sign in' }
       </button>
     </div>
   );
