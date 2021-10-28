@@ -131,7 +131,11 @@ const UserSignup = () => {
         <input type='password' name='password' value={password} onChange={e => setPassword(e.target.value)} />
       </div>
 
-      <button onClick={submit} disabled={password.length < 8}>Register</button>
+      <button onClick={submit}
+        disabled={password.length < 8 || errorMessage}
+      >
+        Register
+      </button>
     </div>
   );
 }
