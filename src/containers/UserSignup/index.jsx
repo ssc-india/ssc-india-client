@@ -4,6 +4,7 @@ import './index.scss';
 
 const serverURL = process.env.REACT_APP_BE_URL || '';
 const SignupUserAPI = process.env.REACT_APP_Signup_User || '';
+const CheckUsernameAPI = process.env.REACT_APP_Check_Username || '';
 
 const UserSignup = () => {
   const [name, setName] = useState('');
@@ -12,12 +13,13 @@ const UserSignup = () => {
   const [branch, setBranch] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [verifyUsername, setVerifyUsername] = useState('not verified');
   const [userCreated, setUserCreated] = useState({});
-  const [errorCode, setErrorCode] = useState(0);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const submit = () => {
     setUserCreated({});
-    setErrorCode(0);
+    setErrorMessage(null);
 
     axios.post(serverURL + SignupUserAPI,
       {
@@ -41,7 +43,21 @@ const UserSignup = () => {
       setBranch('');
       setEmail('');
       setPassword('');
-    }).catch(({response}) => setErrorCode(response.status));
+      setVerifyUsername('not verified');
+    }).catch(({response}) => setErrorMessage(response.data.errors[0].message));
+  }
+
+  const checkUsernameUniqueness = () => {
+    setVerifyUsername('verifying');
+    axios.post(serverURL + CheckUsernameAPI,
+      { username: username }
+    ).then(() => {
+      setVerifyUsername('verified');
+      setErrorMessage(null);
+    }).catch(({response}) => {
+      setErrorMessage(response.data.errors[0].message);
+      setVerifyUsername('not verified');
+    });
   }
   
   return (
@@ -69,9 +85,9 @@ const UserSignup = () => {
       }
 
       {
-        errorCode ?
+        errorMessage ?
           <div className='error'>
-            <p>Failed; Error code {errorCode}</p>
+            <p>Failed; {errorMessage}</p>
           </div> :
           null
       }
@@ -83,8 +99,16 @@ const UserSignup = () => {
 
       <div>
         <label htmlFor='username'>Username</label>
-        <input type='text' name='username' value={username} onChange={e => setUsername(e.target.value)} />
-        {/* <button>Verify uniqueness</button> */}
+        <input type='text' name='username' value={username}
+          onChange={e => {setUsername(e.target.value); setVerifyUsername('not verified');}}
+        />
+        {
+          verifyUsername === 'verified' ?
+          <span><i>Unique</i></span> :
+          <button onClick={checkUsernameUniqueness} disabled={verifyUsername === 'verifying'}>
+            {verifyUsername === 'not verified' ? 'Verify uniqueness' : 'Verifying'}
+          </button>
+        }
       </div>
 
       <div>
