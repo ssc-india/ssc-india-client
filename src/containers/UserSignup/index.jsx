@@ -1,21 +1,32 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import './index.scss';
+import ListBranches from "./listBranches";
+import ListInstitutes from "./listInstitutes";
 
 const serverURL = process.env.REACT_APP_BE_URL || '';
 const SignupUserAPI = process.env.REACT_APP_Signup_User || '';
 const CheckUsernameAPI = process.env.REACT_APP_Check_Username || '';
+const ListInstitutesAPI = process.env.REACT_APP_List_Institutes || '';
 
 const UserSignup = () => {
   const [name, setName] = useState('');
   const [username, setUsername] = useState('');
-  const [institute, setInstitute] = useState('');
+  const [institute, setInstitute] = useState({});
+  const [institutesList, setInstitutesList] = useState([]);
   const [branch, setBranch] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [verifyUsername, setVerifyUsername] = useState('not verified');
   const [userCreated, setUserCreated] = useState({});
   const [errorMessage, setErrorMessage] = useState(null);
+
+  useEffect(() =>
+    axios.get(serverURL + ListInstitutesAPI)
+      .then(res => {
+        setInstitutesList(res.data);
+      })
+  , []);
 
   const submit = () => {
     setUserCreated({});
@@ -25,7 +36,7 @@ const UserSignup = () => {
       {
         name: name,
         username: username,
-        institute: institute,
+        institute: institute.name,
         branch: branch,
         email: email,
         password: password
@@ -39,7 +50,7 @@ const UserSignup = () => {
       });
       setName('');
       setUsername('');
-      setInstitute('');
+      setInstitute({});
       setBranch('');
       setEmail('');
       setPassword('');
@@ -111,15 +122,18 @@ const UserSignup = () => {
         }
       </div>
 
-      <div>
-        <label htmlFor='institute'>Institute</label>
-        <input type='text' name='institute' value={institute} onChange={e => setInstitute(e.target.value)} />
-      </div>
+      <ListInstitutes
+        institute={institute}
+        setInstitute={setInstitute}
+        institutesList={institutesList}
+      />
 
-      <div>
-        <label htmlFor='branch'>Branch</label>
-        <input type='text' name='branch' value={branch} onChange={e => setBranch(e.target.value)} />
-      </div>
+      <ListBranches
+        branch={branch}
+        setBranch={setBranch}
+        branchesList={institute.branches}
+        disabled={Object.keys(institute).length === 0}
+      />
 
       <div>
         <label htmlFor='email'>Email</label>
@@ -131,9 +145,7 @@ const UserSignup = () => {
         <input type='password' name='password' value={password} onChange={e => setPassword(e.target.value)} />
       </div>
 
-      <button onClick={submit}
-        disabled={password.length < 8 || errorMessage}
-      >
+      <button onClick={submit} disabled={password.length < 8}>
         Register
       </button>
     </div>
