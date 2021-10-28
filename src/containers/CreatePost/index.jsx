@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
+import { ErrorMessages } from '../../components';
 import RenderPostContents from './renderContents';
 
 const serverURL = process.env.REACT_APP_BE_URL || '';
@@ -11,6 +12,7 @@ const CreatePost = props => {
   const [title, setTitle] = useState('');
   const [contents, setContents] = useState([{ type: 'p' }]);
   const [generic, setGeneric] = useState(false);
+  const [errorMessages, setErrorMessages] = useState([]);
   const history = useHistory();
 
   useEffect(() => {
@@ -68,7 +70,7 @@ const CreatePost = props => {
           },
           { withCredentials: true }
         ).then(() => history.push('/viewPost/' + props.id))
-        .catch(err => console.log(err));
+        .catch(({response}) => setErrorMessages(response.data.errors));
       } else {
         axios.post(serverURL + PostUploadAPI,
           {
@@ -80,13 +82,24 @@ const CreatePost = props => {
           },
           { withCredentials: true }
         ).then(res => history.push('/viewPost/' + res.data.postId))
-        .catch(({response}) => response.status === 400 ? props.setUser({}) : null);
+        .catch(({response}) => {
+          if(response.status === 400) {
+            setErrorMessages(response.data.errors);
+            props.setUser({});
+          }
+        });
       }
     }
   }
 
   return (
     <div>
+      {
+        errorMessages.length ?
+        <ErrorMessages errors={errorMessages} /> :
+        null
+      }
+
       <div>
         <label htmlFor='blog-title'>Title</label>
         <input type='text' id='blog-title' name='blog-title'
@@ -151,11 +164,11 @@ const CreatePost = props => {
 
       <select value='' onChange={addNewElement}>
         <option value='' disabled selected>Add Element</option>
+        <option value='h2'>Subheading</option>
+        <option value='hr'>Horizontal Line</option>
         <option value='p'>Paragraph</option>
         <option value='img'>Image</option>
         <option value='ul'>Bullet List</option>
-        <option value='h2'>Heading</option>
-        <option value='hr'>Horizontal Line</option>
       </select>
 
       <button type='submit' onClick={handleSubmit} disabled={!canSubmit}>Submit</button>

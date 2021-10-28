@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useHistory } from "react-router";
+import { ErrorMessages } from "../../components";
 
 const serverURL = process.env.REACT_APP_BE_URL || '';
 const AuthenticateUserAPI = process.env.REACT_APP_Auth_User || '';
@@ -8,7 +9,7 @@ const AuthenticateUserAPI = process.env.REACT_APP_Auth_User || '';
 const AuthenticateUser = ({ setUser }) => {
   const [identity, setIdentity] = useState('');
   const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [errorMessages, setErrorMessages] = useState([]);
   const history = useHistory();
 
   const login = () =>
@@ -18,15 +19,13 @@ const AuthenticateUser = ({ setUser }) => {
     ).then(res => {
       setUser(res.data);
       history.push('/');
-    }).catch(({ response }) => setErrorMessage(response.data.errors[0].message));
+    }).catch(({ response }) => setErrorMessages(response.data.errors));
 
   return (
     <div>
       {
-        errorMessage ?
-          <div className='error'>
-            {errorMessage}
-          </div> :
+        errorMessages.length ?
+          <ErrorMessages errors={errorMessages} /> :
           null
       }
 

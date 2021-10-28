@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useHistory, useLocation } from "react-router";
+import { ErrorMessages } from "..";
 import DeleteModal from "../../modals/DeleteModal";
 import './index.scss';
 
@@ -9,6 +10,7 @@ const deletePostAPI = process.env.REACT_APP_Delete_Post;
 
 const Navbar = props => {
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
+  const [errorMessages, setErrorMessages] = useState([]);
 
   const history = useHistory();
   const location = useLocation();
@@ -21,10 +23,16 @@ const Navbar = props => {
       setDeleteModalVisible(false);
       history.push('/');
     })
-    .catch(err => console.log(err));
+    .catch(({response}) => setErrorMessages(response.data.errors));
 
   return (
     <div className='Navbar-container'>
+      {
+        errorMessages.length ?
+        <ErrorMessages errors={errorMessages} /> :
+        null
+      }
+      
       <button onClick={() => history.goBack()} disabled={location.pathname === '/'}>Back</button>
 
       {
