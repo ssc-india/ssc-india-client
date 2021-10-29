@@ -45,7 +45,7 @@ const App = () => {
           <div className='main-contents'>
             <Switch>
               <Route exact path='/' render={() =>
-                  <HomePage user={'name' in user ? user.name : null} query={query} setPost={setPost} />
+                  <HomePage query={query} setPost={setPost} />
                 }
               />
 
@@ -53,7 +53,6 @@ const App = () => {
                   <ShowPost
                     id={props.match.params.id}
                     setSimilarQuery={setSimilarQuery}
-                    user={user.name}
                     setPost={setPost}
                   />
                 }
@@ -69,7 +68,7 @@ const App = () => {
               /> */}
 
               {
-                !user.name ?
+                !user.username ?
                   <AuthenticateUser setUser={setUser} /> :
                   null
               }
@@ -82,7 +81,6 @@ const App = () => {
               <Route exact path='/editPost/:id' render={props =>
                   <CreatePost
                     edit
-                    user={user.id}
                     setUser={setUser}
                     post={post}
                     id={props.match.params.id} />

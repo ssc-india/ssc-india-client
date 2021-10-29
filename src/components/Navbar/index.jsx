@@ -42,13 +42,13 @@ const Navbar = props => {
       }
 
       {
-        props.user.name ?
+        props.user.username ?
           <button onClick={() => history.push('/createPost')}>Create Post</button> :
           null
       }
 
       {
-        props.user.name &&
+        props.user.username &&
         location.pathname.slice(0, location.pathname.lastIndexOf('/')) === '/viewPost' &&
         props.user.id === props.postAuthor ?
           <button onClick={() => history.push('/editPost/' + props.postId)}>Edit Post</button> :
@@ -56,7 +56,7 @@ const Navbar = props => {
       }
 
       {
-        props.user.name &&
+        props.user.username &&
         location.pathname.slice(0, location.pathname.lastIndexOf('/')) === '/viewPost' &&
         props.user.id === props.postAuthor ?
           <button onClick={() => setDeleteModalVisible(true)}>Delete Post</button> :
@@ -73,7 +73,7 @@ const Navbar = props => {
       }
 
       <button onClick={props.setUser}>
-        { props.user.name ? 'Sign out' : 'Sign in' }
+        { props.user.username ? 'Sign out' : 'Sign in' }
       </button>
     </div>
   );
