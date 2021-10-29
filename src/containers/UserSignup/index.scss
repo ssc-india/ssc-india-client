@@ -1,46 +1,64 @@
 .Signup {
   display: flex;
-  flex-direction: column;
   align-items: center;
+  justify-content: center;
+  height: 80vh;
 
-  div {
-    padding: 5px;
-  }
-
-  .userCreated {
-    background-color: limegreen;
-    border: 1px solid green;
+  .SignupContainer {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black;
+    padding: 20px;
     border-radius: 5px;
-    opacity: 0.7;
-    color: green;
-    margin: 5px;
-    padding: 5px;
 
     div {
-      display: flex;
-      flex-direction: row;
-    }
-  }
+      margin: 5px;
+      padding: 5px;
 
-  .listing-dropdown {
-    border: 1px solid black;
-    padding: 10px 0;
-
-    ul, li {
-      margin: 0;
-      padding: 0;
+      * {
+        margin: 0 5px;
+      }
     }
 
-    ul {
-      list-style-type: none;
+    .userCreated {
+      background-color: limegreen;
+      border: 1px solid green;
+      border-radius: 5px;
+      opacity: 0.7;
+      color: green;
+      margin: 5px;
+      padding: 5px;
 
-      li {
-        padding: 0 5px;
+      div {
+        display: flex;
+        flex-direction: row;
+      }
+    }
+
+    .listing-dropdown {
+      border: 1px solid black;
+      padding: 10px 0;
+      position: absolute;
+      background-color: white;
+      max-height: 50vh;
+      overflow-y: scroll;
+
+      ul, li {
+        margin: 0;
+        padding: 0;
       }
 
-      li:hover {
-        background-color: lightgrey;
-        cursor: pointer;
+      ul {
+        list-style-type: none;
+
+        li {
+          padding: 0 10px;
+        }
+
+        li:hover {
+          background-color: lightgrey;
+          cursor: pointer;
+        }
       }
     }
   }

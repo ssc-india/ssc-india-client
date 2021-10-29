@@ -73,7 +73,7 @@ const UserSignup = () => {
   }
   
   return (
-    <div className="Signup">
+    <div className='Signup'>
       {
         'email' in userCreated ?
           <div className='userCreated'>
@@ -96,57 +96,59 @@ const UserSignup = () => {
           null
       }
 
-      {
-        errorMessages.length ?
-          <ErrorMessages errors={errorMessages} /> :
-          null
-      }
-
-      <div>
-        <label htmlFor='name'>Name</label>
-        <input type='text' name='name' value={name} onChange={e => setName(e.target.value)} />
-      </div>
-
-      <div>
-        <label htmlFor='username'>Username</label>
-        <input type='text' name='username' value={username}
-          onChange={e => {setUsername(e.target.value); setVerifyUsername('not verified');}}
-        />
+      <div className='SignupContainer'>
         {
-          verifyUsername === 'verified' ?
-          <span><i>Unique</i></span> :
-          <button onClick={checkUsernameUniqueness} disabled={verifyUsername === 'verifying'}>
-            {verifyUsername === 'not verified' ? 'Verify uniqueness' : 'Verifying'}
-          </button>
+          errorMessages.length ?
+            <ErrorMessages errors={errorMessages} /> :
+            null
         }
+
+        <div>
+          <label htmlFor='name'>Name</label>
+          <input type='text' name='name' value={name} onChange={e => setName(e.target.value)} />
+        </div>
+
+        <div>
+          <label htmlFor='username'>Username</label>
+          <input type='text' name='username' value={username}
+            onChange={e => {setUsername(e.target.value); setVerifyUsername('not verified');}}
+          />
+          {
+            verifyUsername === 'verified' ?
+            <span><i>Unique</i></span> :
+            <button onClick={checkUsernameUniqueness} disabled={verifyUsername === 'verifying'}>
+              {verifyUsername === 'not verified' ? 'Verify uniqueness' : 'Verifying'}
+            </button>
+          }
+        </div>
+
+        <ListInstitutes
+          institute={institute}
+          setInstitute={setInstitute}
+          institutesList={institutesList}
+        />
+
+        <ListBranches
+          branch={branch}
+          setBranch={setBranch}
+          branchesList={institute.branches}
+          disabled={Object.keys(institute).length === 0}
+        />
+
+        <div>
+          <label htmlFor='email'>Email</label>
+          <input type='email' name='email' value={email} onChange={e => setEmail(e.target.value)} />
+        </div>
+
+        <div>
+          <label htmlFor='password'>Password (min 8 chars)</label>
+          <input type='password' name='password' value={password} onChange={e => setPassword(e.target.value)} />
+        </div>
+
+        <button onClick={submit} disabled={password.length < 8}>
+          Register
+        </button>
       </div>
-
-      <ListInstitutes
-        institute={institute}
-        setInstitute={setInstitute}
-        institutesList={institutesList}
-      />
-
-      <ListBranches
-        branch={branch}
-        setBranch={setBranch}
-        branchesList={institute.branches}
-        disabled={Object.keys(institute).length === 0}
-      />
-
-      <div>
-        <label htmlFor='email'>Email</label>
-        <input type='email' name='email' value={email} onChange={e => setEmail(e.target.value)} />
-      </div>
-
-      <div>
-        <label htmlFor='password'>Password (min 8 chars)</label>
-        <input type='password' name='password' value={password} onChange={e => setPassword(e.target.value)} />
-      </div>
-
-      <button onClick={submit} disabled={password.length < 8}>
-        Register
-      </button>
     </div>
   );
 }

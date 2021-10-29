@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { ErrorMessages } from '../../components';
 import RenderPostContents from './renderContents';
+import './index.scss';
 
 const serverURL = process.env.REACT_APP_BE_URL || '';
 const PostUploadAPI = process.env.REACT_APP_Create_Post || '';
@@ -93,16 +94,16 @@ const CreatePost = props => {
   }
 
   return (
-    <div>
+    <div className='createPost'>
       {
         errorMessages.length ?
         <ErrorMessages errors={errorMessages} /> :
         null
       }
 
-      <div>
+      <div className='titlearea'>
         <label htmlFor='blog-title'>Title</label>
-        <input type='text' id='blog-title' name='blog-title'
+        <input type='text' id='blog-title' name='blog-title' className='blog-heading'
           value={title}
           onChange={e => setTitle(e.target.value)}
           required
@@ -113,15 +114,20 @@ const CreatePost = props => {
       {
         !props.edit ?
           <div>
-            <label htmlFor='generic'>Generic post</label>
-            <input type='radio' name='generic' checked={generic} onChange={() => setGeneric(true)} />
-            <label htmlFor='blog'>Blog post</label>
-            <input type='radio' name='blog' checked={!generic} onChange={() => setGeneric(false)} />
+            <p>Post type:</p>
+            <div className='radioGroup'>
+              <label htmlFor='generic'>Factual post</label>
+              <input type='radio' name='generic' checked={generic} onChange={() => setGeneric(true)} />
+              <label htmlFor='blog'>Blog post</label>
+              <input type='radio' name='blog' checked={!generic} onChange={() => setGeneric(false)} />
+            </div>
           </div> :
           null
       }
 
-      <hr />
+      <div>
+        <hr />
+      </div>
 
       <div>
         <RenderPostContents
@@ -162,16 +168,18 @@ const CreatePost = props => {
         />
       </div>
 
-      <select value='' onChange={addNewElement}>
-        <option value='' disabled selected>Add Element</option>
-        <option value='h2'>Subheading</option>
-        <option value='hr'>Horizontal Line</option>
-        <option value='p'>Paragraph</option>
-        <option value='img'>Image</option>
-        <option value='ul'>Bullet List</option>
-      </select>
+      <div className='buttonGroup'>
+        <select value='' onChange={addNewElement}>
+          <option value='' disabled selected>Add Element</option>
+          <option value='h2'>Subheading</option>
+          <option value='hr'>Horizontal Line</option>
+          <option value='p'>Paragraph</option>
+          <option value='img'>Image</option>
+          <option value='ul'>Bullet List</option>
+        </select>
 
-      <button type='submit' onClick={handleSubmit} disabled={!canSubmit}>Submit</button>
+        <button type='submit' onClick={handleSubmit} disabled={!canSubmit}>Submit</button>
+      </div>
     </div>
   );
 }

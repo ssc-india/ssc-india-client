@@ -8,8 +8,19 @@ const LoadPostsList = ({posts}) => {
   const postsList = posts.map((post, index) =>
     <div key={index} onClick={() => history.push(`/viewPost/${post.id}`)} className='LoadPostsList'>
       <h3>{post.title}</h3>
-      <p>{ 'author' in post && post.author !== null ? post.author.username : '~Unknown Author~' }</p>
-      <p>{ 'branch' in post ? post.branch : '~Unknown Branch~' }</p>
+
+      {
+        post.tag === 'blog' ?
+        <p>{ 'author' in post && post.author !== null ? post.author.username : '~Unknown Author~' }</p> :
+        null
+      }
+
+      {
+        post.tag === 'blog' ?
+        <p>{ 'branch' in post ? post.branch : '~Unknown Branch~' }</p> :
+        null
+      }
+
       <p>{ 'institute' in post ? post.institute : '~Unknown Institute~' }</p>
     </div>
   );
