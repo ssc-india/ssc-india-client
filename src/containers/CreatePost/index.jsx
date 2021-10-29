@@ -182,6 +182,8 @@ const CreatePost = props => {
       </div>
 
       <div className='buttonGroup'>
+        <hr />
+        
         <ListInstitutes
           institute={institute}
           setInstitute={setInstitute}
