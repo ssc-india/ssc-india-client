@@ -4,15 +4,11 @@ import { HashRouter as Router } from 'react-router-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { CurrentUserContext } from './contexts';
-import { currentUser } from './contexts/CurrentUser';
 
 ReactDOM.render(
   <React.StrictMode>
     <Router>
-      <CurrentUserContext.Provider value={currentUser}>
-        <App />
-      </CurrentUserContext.Provider>
+      <App />
     </Router>
   </React.StrictMode>,
   document.getElementById('root')
