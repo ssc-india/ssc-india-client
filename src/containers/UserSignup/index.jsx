@@ -74,35 +74,35 @@ const UserSignup = () => {
   
   return (
     <div className='Signup'>
+      {
+        'email' in userCreated ?
+          <div className='userCreated'>
+            <p>
+              User email verification pending. Please check your inbox (and spam) for the verification link.
+            </p><br />
+            <div>
+              <label htmlFor='createdUsername'>Username</label>
+              <p name='createdUsername'>{userCreated.username}</p>
+            </div>
+            <div>
+              <label htmlFor='createdEmail'>Email</label>
+              <p name='createdEmail'>{userCreated.email}</p>
+            </div>
+            <div>
+              <label htmlFor='createdPass'>Password</label>
+              <p name='createdPass'>{userCreated.password}</p>
+            </div>
+          </div> :
+          null
+      }
+
+      {
+        errorMessages.length ?
+          <ErrorMessages errors={errorMessages} /> :
+          null
+      }
+
       <div className='SignupContainer'>
-        {
-          'email' in userCreated ?
-            <div className='userCreated'>
-              <p>
-                User email verification pending. Please check your inbox (and spam) for the verification link.
-              </p><br />
-              <div>
-                <label htmlFor='createdUsername'>Username</label>
-                <p name='createdUsername'>{userCreated.username}</p>
-              </div>
-              <div>
-                <label htmlFor='createdEmail'>Email</label>
-                <p name='createdEmail'>{userCreated.email}</p>
-              </div>
-              <div>
-                <label htmlFor='createdPass'>Password</label>
-                <p name='createdPass'>{userCreated.password}</p>
-              </div>
-            </div> :
-            null
-        }
-
-        {
-          errorMessages.length ?
-            <ErrorMessages errors={errorMessages} /> :
-            null
-        }
-
         <div>
           <label htmlFor='name'>Name</label>
           <input type='text' name='name' value={name} onChange={e => setName(e.target.value)} />

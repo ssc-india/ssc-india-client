@@ -1,5 +1,6 @@
 .Signup {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 70vh;
@@ -14,6 +15,10 @@
     div {
       margin: 5px;
       padding: 5px;
+
+      * {
+        margin: 0 5px;
+      }
     }
 
     .userCreated {
