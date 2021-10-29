@@ -1,19 +1,26 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
+import ls from 'local-storage';
 import { ErrorMessages } from '../../components';
+import ListInstitutes from '../UserSignup/listInstitutes';
+import ListBranches from '../UserSignup/listBranches';
 import RenderPostContents from './renderContents';
 import './index.scss';
 
 const serverURL = process.env.REACT_APP_BE_URL || '';
 const PostUploadAPI = process.env.REACT_APP_Create_Post || '';
 const PostEditAPI = process.env.REACT_APP_Edit_Post || '';
+const ListInstitutesAPI = process.env.REACT_APP_List_Institutes || '';
 
 const CreatePost = props => {
   const [title, setTitle] = useState('');
   const [contents, setContents] = useState([{ type: 'p' }]);
   const [generic, setGeneric] = useState(false);
   const [errorMessages, setErrorMessages] = useState([]);
+  const [institute, setInstitute] = useState({});
+  const [branch, setBranch] = useState('');
+  const [institutesList, setInstitutesList] = useState([]);
   const history = useHistory();
 
   useEffect(() => {
@@ -21,8 +28,28 @@ const CreatePost = props => {
       setTitle(props.post.title);
       setContents(props.post.content);
       setGeneric(props.post.tag === 'generic');
+    } else if(props.draftId !== null) {
+      let draft = ls.get('drafts')[props.draftId];
+      setTitle(draft.title);
+      setContents(draft.content);
+      setGeneric(draft.tag === 'generic');
+      setInstitute({ name: draft.institute || '', branches: [] });
+      setBranch(draft.branch || '');
+    } else {
+      setTitle('');
+      setContents([{ type: 'p' }]);
+      setGeneric(false);
+      setInstitute({});
+      setBranch('');
     }
-  }, [props.edit, props.post]);
+
+    const getInstitutesList = async () => {
+      const response = await axios.get(serverURL + ListInstitutesAPI);
+      setInstitutesList(response.data);
+    }
+
+    getInstitutesList();
+  }, [props.edit, props.post, props.draftId]);
 
   const handleContentsChange = (index, obj) => setContents([
     ...contents.slice(0, index),
@@ -77,20 +104,49 @@ const CreatePost = props => {
           {
             title: title,
             content: contents,
-            institute: props.user.institute,
-            branch: props.user.branch,
+            institute: institute.name,
+            branch,
             tag: generic ? 'generic' : 'blog',
           },
           { withCredentials: true }
         ).then(res => history.push('/viewPost/' + res.data.postId))
         .catch(({response}) => {
-          if(response.status === 400) {
-            setErrorMessages(response.data.errors);
+          setErrorMessages(response.data.errors);
+          if(response.status === 401) {
             props.setUser({});
           }
         });
       }
     }
+  }
+
+  const saveAsDraft = () => {
+    let drafts = ls.get('drafts') || [];
+    const obj = {
+      title: title,
+      content: contents,
+      institute: institute.name,
+      branch: branch,
+      tag: generic ? 'generic' : 'blog',
+    };
+    if('draftId' in props && props.draftId !== null) {
+      drafts[props.draftId] = obj;
+    } else {
+      drafts.push(obj);
+    }
+    ls.set('drafts', drafts);
+    props.setDraftId(props.draftId !== null ? props.draftId : drafts.length-1)
+  }
+
+  const deleteDraft = () => {
+    let drafts = ls.get('drafts') || [];
+    drafts = [
+      ...drafts.slice(0, props.draftId),
+      ...drafts.slice(props.draftId+1)
+    ];
+    ls.set('drafts', drafts);
+    props.setDraftId(null);
+    history.push('/');
   }
 
   return (
@@ -169,6 +225,21 @@ const CreatePost = props => {
       </div>
 
       <div className='buttonGroup'>
+        <hr />
+        
+        <ListInstitutes
+          institute={institute}
+          setInstitute={setInstitute}
+          institutesList={institutesList}
+        />
+
+        <ListBranches
+          branch={branch}
+          setBranch={setBranch}
+          branchesList={institute.branches}
+          disabled={Object.keys(institute).length === 0}
+        />
+
         <select value='' onChange={addNewElement}>
           <option value='' disabled selected>Add Element</option>
           <option value='h2'>Subheading</option>
@@ -178,7 +249,9 @@ const CreatePost = props => {
           <option value='ul'>Bullet List</option>
         </select>
 
-        <button type='submit' onClick={handleSubmit} disabled={!canSubmit}>Submit</button>
+        <button onClick={handleSubmit} disabled={!canSubmit}>Submit</button>
+        <button onClick={saveAsDraft}>Save as draft</button>
+        <button onClick={deleteDraft} disabled={props.draftId === null}>Delete this draft</button>
       </div>
     </div>
   );

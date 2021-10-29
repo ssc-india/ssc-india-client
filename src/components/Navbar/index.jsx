@@ -43,7 +43,12 @@ const Navbar = props => {
 
       {
         props.user.username ?
-          <button onClick={() => history.push('/createPost')}>Create Post</button> :
+          <button onClick={() => {
+            props.setDraftId(null);
+            history.push('/createPost');
+          }}>
+            Create Post
+          </button> :
           null
       }
 
