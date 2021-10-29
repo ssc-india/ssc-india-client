@@ -90,8 +90,8 @@ const CreatePost = props => {
           {
             title: title,
             content: contents,
-            institute: props.user.institute,
-            branch: props.user.branch,
+            institute: institute.name,
+            branch,
             tag: generic ? 'generic' : 'blog',
           },
           { withCredentials: true }
