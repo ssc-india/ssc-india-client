@@ -28,6 +28,19 @@ const CreatePost = props => {
       setTitle(props.post.title);
       setContents(props.post.content);
       setGeneric(props.post.tag === 'generic');
+    } else if(props.draftId !== null) {
+      let draft = ls.get('drafts')[props.draftId];
+      setTitle(draft.title);
+      setContents(draft.content);
+      setGeneric(draft.tag === 'generic');
+      setInstitute({ name: draft.institute || '', branches: [] });
+      setBranch(draft.branch || '');
+    } else {
+      setTitle('');
+      setContents([{ type: 'p' }]);
+      setGeneric(false);
+      setInstitute({});
+      setBranch('');
     }
 
     const getInstitutesList = async () => {
@@ -36,7 +49,7 @@ const CreatePost = props => {
     }
 
     getInstitutesList();
-  }, [props.edit, props.post]);
+  }, [props.edit, props.post, props.draftId]);
 
   const handleContentsChange = (index, obj) => setContents([
     ...contents.slice(0, index),
@@ -107,22 +120,33 @@ const CreatePost = props => {
     }
   }
 
-  const saveAsDraft = draftId => {
+  const saveAsDraft = () => {
     let drafts = ls.get('drafts') || [];
     const obj = {
       title: title,
       content: contents,
-      institute: props.user.institute,
-      branch: props.user.branch,
+      institute: institute.name,
+      branch: branch,
       tag: generic ? 'generic' : 'blog',
     };
-    if(draftId) {
-      drafts[draftId] = obj;
+    if('draftId' in props && props.draftId !== null) {
+      drafts[props.draftId] = obj;
     } else {
       drafts.push(obj);
     }
     ls.set('drafts', drafts);
-    props.setDraftId(draftId || drafts.length-1)
+    props.setDraftId(props.draftId !== null ? props.draftId : drafts.length-1)
+  }
+
+  const deleteDraft = () => {
+    let drafts = ls.get('drafts') || [];
+    drafts = [
+      ...drafts.slice(0, props.draftId),
+      ...drafts.slice(props.draftId+1)
+    ];
+    ls.set('drafts', drafts);
+    props.setDraftId(null);
+    history.push('/');
   }
 
   return (
@@ -226,7 +250,8 @@ const CreatePost = props => {
         </select>
 
         <button onClick={handleSubmit} disabled={!canSubmit}>Submit</button>
-        <button onClick={() => saveAsDraft(props.draftId)}>Save as draft</button>
+        <button onClick={saveAsDraft}>Save as draft</button>
+        <button onClick={deleteDraft} disabled={props.draftId === null}>Delete this draft</button>
       </div>
     </div>
   );

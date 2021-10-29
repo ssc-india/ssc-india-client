@@ -17,7 +17,7 @@ const App = () => {
   const serverURL = process.env.REACT_APP_BE_URL || '';
   const DeauthUserAPI = process.env.REACT_APP_Deauth_User || '';
   const CheckUserAPI = process.env.REACT_APP_Check_User || '';
-  console.log(user);
+
   useEffect(() => {
     const getUser = async () => {
       const response = await axios.get(serverURL + CheckUserAPI, { withCredentials: true });
@@ -85,7 +85,9 @@ const App = () => {
                     edit
                     setUser={setUser}
                     post={post}
-                    id={props.match.params.id} />
+                    id={props.match.params.id}
+                    setDraftId={setDraftId}
+                  />
                 }
               />
               <Redirect to='/' />

@@ -26,11 +26,21 @@ const SidePanel = props => {
   return (
     <div className='SidePanel'>
       {
-        location.pathname.slice(0, location.pathname.lastIndexOf('/')) === '/viewPost' ?
+        location.pathname !== '/' ?
           <div className='sideLinks'>
             <button onClick={() => similarPosts({  })}>HomePage</button>
-            <button onClick={() => similarPosts({ institute: props.similarQuery.institute || '' })}>Posts from this institute</button>
-            <button onClick={() => similarPosts({ branch: props.similarQuery.branch || '' })}>Posts from this branch</button>
+
+            {
+              location.pathname.slice(0, location.pathname.lastIndexOf('/')) === '/viewPost' ?
+              <button onClick={() => similarPosts({ institute: props.similarQuery.institute || '' })}>Posts from this institute</button> :
+              null
+            }
+
+            {
+              location.pathname.slice(0, location.pathname.lastIndexOf('/')) === '/viewPost' ?
+              <button onClick={() => similarPosts({ branch: props.similarQuery.branch || '' })}>Posts from this branch</button> :
+              null
+            }
           </div> :
           null
       }

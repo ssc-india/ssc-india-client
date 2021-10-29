@@ -1,7 +1,6 @@
 import React from "react";
 
 const BulletList = props => {
-  console.log(props.contents);
   const lines = props.contents.map((line, index) =>
     <li key={index}>
       <textarea type='text' value={line} onChange={e => props.editBulletListLine(index, e.target.value)} />
