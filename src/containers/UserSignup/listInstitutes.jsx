@@ -49,7 +49,7 @@ const ListInstitutes = props => {
   return (
     <div>
       <label htmlFor='institute'>Institute</label>
-      <input type='text' name='institute' value={typedInstitute} onChange={handleInstituteFieldChange} />
+      <input type='text' name='institute' value={typedInstitute} onChange={handleInstituteFieldChange} autoComplete='off' />
 
       <RenderDropdownList />
     </div>
