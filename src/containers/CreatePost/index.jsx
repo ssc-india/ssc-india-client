@@ -84,8 +84,8 @@ const CreatePost = props => {
           { withCredentials: true }
         ).then(res => history.push('/viewPost/' + res.data.postId))
         .catch(({response}) => {
-          if(response.status === 400) {
-            setErrorMessages(response.data.errors);
+          setErrorMessages(response.data.errors);
+          if(response.status === 401) {
             props.setUser({});
           }
         });
