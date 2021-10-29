@@ -2,18 +2,24 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { ErrorMessages } from '../../components';
+import ListInstitutes from '../UserSignup/listInstitutes';
+import ListBranches from '../UserSignup/listBranches';
 import RenderPostContents from './renderContents';
 import './index.scss';
 
 const serverURL = process.env.REACT_APP_BE_URL || '';
 const PostUploadAPI = process.env.REACT_APP_Create_Post || '';
 const PostEditAPI = process.env.REACT_APP_Edit_Post || '';
+const ListInstitutesAPI = process.env.REACT_APP_List_Institutes || '';
 
 const CreatePost = props => {
   const [title, setTitle] = useState('');
   const [contents, setContents] = useState([{ type: 'p' }]);
   const [generic, setGeneric] = useState(false);
   const [errorMessages, setErrorMessages] = useState([]);
+  const [institute, setInstitute] = useState({});
+  const [branch, setBranch] = useState('');
+  const [institutesList, setInstitutesList] = useState([]);
   const history = useHistory();
 
   useEffect(() => {
@@ -22,6 +28,13 @@ const CreatePost = props => {
       setContents(props.post.content);
       setGeneric(props.post.tag === 'generic');
     }
+
+    const getInstitutesList = async () => {
+      const response = await axios.get(serverURL + ListInstitutesAPI);
+      setInstitutesList(response.data);
+    }
+
+    getInstitutesList();
   }, [props.edit, props.post]);
 
   const handleContentsChange = (index, obj) => setContents([
@@ -77,8 +90,8 @@ const CreatePost = props => {
           {
             title: title,
             content: contents,
-            institute: props.user.institute,
-            branch: props.user.branch,
+            institute: institute.name,
+            branch,
             tag: generic ? 'generic' : 'blog',
           },
           { withCredentials: true }
@@ -169,6 +182,19 @@ const CreatePost = props => {
       </div>
 
       <div className='buttonGroup'>
+        <ListInstitutes
+          institute={institute}
+          setInstitute={setInstitute}
+          institutesList={institutesList}
+        />
+
+        <ListBranches
+          branch={branch}
+          setBranch={setBranch}
+          branchesList={institute.branches}
+          disabled={Object.keys(institute).length === 0}
+        />
+
         <select value='' onChange={addNewElement}>
           <option value='' disabled selected>Add Element</option>
           <option value='h2'>Subheading</option>
