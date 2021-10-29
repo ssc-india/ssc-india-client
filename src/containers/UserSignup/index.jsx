@@ -96,13 +96,13 @@ const UserSignup = () => {
           null
       }
 
-      {
-        errorMessages.length ?
-          <ErrorMessages errors={errorMessages} /> :
-          null
-      }
-
       <div className='SignupContainer'>
+        {
+          errorMessages.length ?
+            <ErrorMessages errors={errorMessages} /> :
+            null
+        }
+
         <div>
           <label htmlFor='name'>Name</label>
           <input type='text' name='name' value={name} onChange={e => setName(e.target.value)} />
