@@ -1,12 +1,62 @@
-.AddImg {
-  .imgShow {
-    display: flex;
-    flex-direction: column;
+.createPost {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 
-    img {
-      max-width: 70%;
+  .titlearea {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  & > div {
+    width: 100%;
+    * {
+      margin: 5px;
+    }
+
+    div {
+      div {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        ul > li * {
+          vertical-align: middle;
+          // display: flex;
+          // flex-direction: row;
+        }
+      }
+    }
+
+    .blog-heading {
+      font-size: 24px;
+      font-weight: 600;
     }
   }
+
+  hr {
+    margin: 10px 0 40px 0;
+  }
+}
+
+input[type=text], textarea {
+  width: 100%;
+}
+
+.AddImg {
+  text-align: center;
+  border: 1px solid grey;
+
+  img {
+    max-width: 70%;
+  }
+}
+
+.bulletList {
+  display: block !important;
+  // display: flex;
+  // flex-direction: column;
 }
 
 .removeButton {
