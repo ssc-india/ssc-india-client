@@ -113,7 +113,7 @@ const CreatePost = props => {
       {
         !props.edit ?
           <div>
-            <label htmlFor='generic'>Generic post</label>
+            <label htmlFor='generic'>Factual post</label>
             <input type='radio' name='generic' checked={generic} onChange={() => setGeneric(true)} />
             <label htmlFor='blog'>Blog post</label>
             <input type='radio' name='blog' checked={!generic} onChange={() => setGeneric(false)} />
