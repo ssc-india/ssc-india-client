@@ -50,7 +50,7 @@ const ListBranches = props => {
     <div>
       <label htmlFor='branch'>Branch</label>
       <input type='text' name='branch' value={typedBranch} onChange={handleBranchFieldChange}
-        disabled={props.disabled}
+        disabled={props.disabled} autoComplete='off'
       />
 
       <RenderDropdownList />
