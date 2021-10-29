@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { Redirect, Route, Switch, useHistory } from "react-router";
 import { Footer, Navbar, SidePanel } from "./components";
 import { AuthenticateUser, CreatePost, HomePage, ShowPost, UserSignup, VerifyEmail } from "./containers";
@@ -12,79 +12,89 @@ const App = () => {
   const [post, setPost] = useState([]);
   const [similarQuery, setSimilarQuery] = useState({});
   const history = useHistory();
-  const currentUser = useContext(CurrentUserContext);
 
   const serverURL = process.env.REACT_APP_BE_URL || '';
   const DeauthUserAPI = process.env.REACT_APP_Deauth_User || '';
-  
+  const CheckUserAPI = process.env.REACT_APP_Check_User || '';
+  console.log(user);
+  useEffect(() => {
+    const getUser = async () => {
+      const response = await axios.get(serverURL + CheckUserAPI, { withCredentials: true });
+      setUser(response.data.currentUser === null ? {} : response.data.currentUser);
+    }
+
+    getUser();
+  }, [serverURL, CheckUserAPI]);
+
   const signout = () =>
-    axios.post(serverURL + DeauthUserAPI)
+    axios.post(serverURL + DeauthUserAPI, {}, { withCredentials: true })
       .then(() => setUser({}));
 
   return (
-    <div className="App">
-      <Navbar user={user}
-        postId={post.id}
-        postAuthor={post.author ? post.author.id : ''}
-        setUser={() => 'name' in user ? signout() : history.push('/authUser')}
-        isAuthenticated={currentUser.isAuthenticated()}
-      />
+    <CurrentUserContext.Provider value={user}>
+      <div className="App">
+        <Navbar user={user}
+          postId={post.id}
+          postAuthor={post.author ? post.author.id : ''}
+          setUser={() => 'name' in user ? signout() : history.push('/authUser')}
+        />
 
-      <div className='App-contents'>
-        <SidePanel similarQuery={similarQuery} setQuery={setQuery} />
+        <div className='App-contents'>
+          <SidePanel similarQuery={similarQuery} setQuery={setQuery} />
 
-        <div className='main-contents'>
-          <Switch>
-            <Route exact path='/' render={() =>
-                <HomePage user={'name' in user ? user.name : null} query={query} setPost={setPost} />
+          <div className='main-contents'>
+            <Switch>
+              <Route exact path='/' render={() =>
+                  <HomePage user={'name' in user ? user.name : null} query={query} setPost={setPost} />
+                }
+              />
+
+              <Route exact path='/viewPost/:id' render={props =>
+                  <ShowPost
+                    id={props.match.params.id}
+                    setSimilarQuery={setSimilarQuery}
+                    user={user.name}
+                    setPost={setPost}
+                  />
+                }
+              />
+
+              <Route exact path='/userSignup' component={UserSignup} />
+
+              <Route exact path='/verify/:id' render={props => <VerifyEmail id={props.match.params.id} />} />
+
+              {/* <Route exact path='/authUser' render={() =>
+                  <AuthenticateUser setUser={setUser} />
+                }
+              /> */}
+
+              {
+                !user.name ?
+                  <AuthenticateUser setUser={setUser} /> :
+                  null
               }
-            />
 
-            <Route exact path='/viewPost/:id' render={props =>
-                <ShowPost
-                  id={props.match.params.id}
-                  setSimilarQuery={setSimilarQuery}
-                  user={user.name}
-                  setPost={setPost}
-                />
-              }
-            />
+              <Route exact path='/createPost' render={() =>
+                  <CreatePost user={user} setUser={setUser} />
+                }
+              />
 
-            <Route exact path='/userSignup' component={UserSignup} />
-
-            <Route exact path='/verify/:id' render={props => <VerifyEmail id={props.match.params.id} />} />
-
-            {/* <Route exact path='/authUser' render={() =>
-                <AuthenticateUser setUser={setUser} />
-              }
-            /> */}
-
-            {
-              !user.name ?
-                <AuthenticateUser setUser={setUser} /> :
-                null
-            }
-
-            <Route exact path='/createPost' render={() =>
-                <CreatePost user={user} setUser={setUser} />
-              }
-            />
-
-            <Route exact path='/editPost/:id' render={props =>
-                <CreatePost
-                  edit
-                  user={user.id}
-                  setUser={setUser}
-                  post={post}
-                  id={props.match.params.id} />
-              }
-            />
-            <Redirect to='/' />
-          </Switch>
+              <Route exact path='/editPost/:id' render={props =>
+                  <CreatePost
+                    edit
+                    user={user.id}
+                    setUser={setUser}
+                    post={post}
+                    id={props.match.params.id} />
+                }
+              />
+              <Redirect to='/' />
+            </Switch>
+          </div>
         </div>
+        <Footer />
       </div>
-      <Footer />
-    </div>
+    </CurrentUserContext.Provider>
   );
 }
 
