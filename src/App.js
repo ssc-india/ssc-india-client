@@ -11,6 +11,7 @@ const App = () => {
   const [query, setQuery] = useState({});
   const [post, setPost] = useState([]);
   const [similarQuery, setSimilarQuery] = useState({});
+  const [draftId, setDraftId] = useState(null);
   const history = useHistory();
 
   const serverURL = process.env.REACT_APP_BE_URL || '';
@@ -37,10 +38,11 @@ const App = () => {
           postId={post.id}
           postAuthor={post.author ? post.author.id : ''}
           setUser={() => 'name' in user ? signout() : history.push('/authUser')}
+          setDraftId={setDraftId}
         />
 
         <div className='App-contents'>
-          <SidePanel similarQuery={similarQuery} setQuery={setQuery} />
+          <SidePanel similarQuery={similarQuery} setQuery={setQuery} setDraftId={setDraftId} />
 
           <div className='main-contents'>
             <Switch>
@@ -74,7 +76,7 @@ const App = () => {
               }
 
               <Route exact path='/createPost' render={() =>
-                  <CreatePost user={user} setUser={setUser} />
+                  <CreatePost user={user} setUser={setUser} draftId={draftId} setDraftId={setDraftId} />
                 }
               />
 

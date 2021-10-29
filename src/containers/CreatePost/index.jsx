@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
+import ls from 'local-storage';
 import { ErrorMessages } from '../../components';
 import RenderPostContents from './renderContents';
 import './index.scss';
@@ -93,6 +94,24 @@ const CreatePost = props => {
     }
   }
 
+  const saveAsDraft = draftId => {
+    let drafts = ls.get('drafts') || [];
+    const obj = {
+      title: title,
+      content: contents,
+      institute: props.user.institute,
+      branch: props.user.branch,
+      tag: generic ? 'generic' : 'blog',
+    };
+    if(draftId) {
+      drafts[draftId] = obj;
+    } else {
+      drafts.push(obj);
+    }
+    ls.set('drafts', drafts);
+    props.setDraftId(draftId || drafts.length-1)
+  }
+
   return (
     <div className='createPost'>
       {
@@ -178,7 +197,8 @@ const CreatePost = props => {
           <option value='ul'>Bullet List</option>
         </select>
 
-        <button type='submit' onClick={handleSubmit} disabled={!canSubmit}>Submit</button>
+        <button onClick={handleSubmit} disabled={!canSubmit}>Submit</button>
+        <button onClick={() => saveAsDraft(props.draftId)}>Save as draft</button>
       </div>
     </div>
   );

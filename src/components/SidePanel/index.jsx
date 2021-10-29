@@ -1,5 +1,6 @@
 import React from "react";
 import { useHistory, useLocation } from 'react-router-dom';
+import ls from 'local-storage';
 import './index.scss';
 
 const SidePanel = props => {
@@ -9,6 +10,17 @@ const SidePanel = props => {
   const similarPosts = obj => {
     props.setQuery(obj);
     history.push('/');
+  }
+
+  const renderDrafts = () => {
+    let drafts = ls.get('drafts') || [];
+    return drafts.map((draft, index) =>
+      <li key={index} onClick={() => {
+        props.setDraftId(index);
+        history.push('/createPost');
+      }}>
+        {draft.title}
+      </li>);
   }
 
   return (
@@ -25,6 +37,13 @@ const SidePanel = props => {
 
       <div>
         <h5>Important Notifications</h5>
+      </div>
+
+      <div>
+        <h5>Your saved drafts</h5>
+        <ul>
+          {renderDrafts()}
+        </ul>
       </div>
     </div>
   );
