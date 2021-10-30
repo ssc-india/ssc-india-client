@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import ls from 'local-storage';
-import { ErrorMessages } from '../../components';
+import { ErrorMessages, BlogEditor } from '../../components';
 import ListInstitutes from '../UserSignup/listInstitutes';
 import ListBranches from '../UserSignup/listBranches';
 import RenderPostContents from './renderContents';
@@ -248,6 +248,8 @@ const CreatePost = props => {
           <option value='img'>Image</option>
           <option value='ul'>Bullet List</option>
         </select>
+        
+        <BlogEditor />
 
         <button onClick={handleSubmit} disabled={!canSubmit}>Submit</button>
         <button onClick={saveAsDraft}>Save as draft</button>
